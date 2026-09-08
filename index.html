@@ -3,1198 +3,1664 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#140C0D">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Training">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#c3dee7">
 <title>Training Hub</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-180.png">
-<link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..800;1,62..125,400..800&family=Azeret+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  color-scheme:dark;
-  --ink:#140C0D; --surface:#1E1416; --surface2:#26191B; --sunk:#0D0708;
-  --line:#3A2528; --line2:#4A3033;
-  --bone:#F0E9E2; --dim:#B09A96; --dim2:#7E6864;
-  --cardinal:#D81E36; --amber:#E4A03C; --go:#7FB08A; --coach:#93A9C4;
-  --sev0:#7E6864; --sev1:#C9B79C; --sev2:#E0B15A; --sev3:#E4803C;
-  --sev4:#DC4A38; --sev5:#D81E36;
-  --load:linear-gradient(90deg,#7FB08A 0%,#93B583 30%,#E4A03C 51%,#D81E36 61%,#8E1223 100%);
-  --display:'Archivo',sans-serif;
-  --mono:'Azeret Mono',ui-monospace,Menlo,monospace;
-  --spring:linear(0,.006,.025 2.8%,.101 6.1%,.539 18.9%,.721 25.3%,.849 31.5%,
-    .937 38.1%,.968 41.8%,.991 45.7%,1.006 50.1%,1.013 57.7%,1.001 78.2%,1);
-  --shin:#E0B15A; --kneeInner:#E4803C; --kneeGeneral:#DC4A38;
-  --thigh:#C9B79C; --hipFlexor:#93A9C4; --gluteItb:#7FB08A; --otherArea:#9A8A86;
+  --paper:    #fbfdfa;
+  --paper-2:  #f3f7f1;
+  --rule:     rgba(28,43,36,.14);
+  --rule-soft:rgba(28,43,36,.09);
+
+  --ink:      #1c2b24;
+  --ink-mid:  #42574d;
+  --ink-soft: #55665d;
+
+  --grass:    #35674a;   /* easy running */
+  --long:     #16452e;   /* long run */
+  --quality:  #8b5506;   /* workouts */
+  --race:     #a62f1e;   /* races */
+  --shade:    #46738d;   /* cross-training */
+  --stone:    #746a80;   /* lift */
+
+  --wash:     rgba(255,255,255,.42);
+  --r-card:   6px;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0;color:var(--bone);
-  font:400 15.5px/1.5 var(--display);
+  margin:0;min-height:100vh;
+  font-family:"Bricolage Grotesque",ui-sans-serif,sans-serif;
+  font-optical-sizing:auto;color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 calc(78px + env(safe-area-inset-bottom));
   background:
-    radial-gradient(120% 60% at 85% -5%, rgba(216,30,54,.14), transparent 60%),
-    radial-gradient(90% 50% at 10% 105%, rgba(216,30,54,.06), transparent 65%),
-    repeating-linear-gradient(115deg, rgba(240,233,226,.022) 0 1px, transparent 1px 13px),
-    var(--ink);
-  background-attachment:fixed;
-  padding:calc(64px + env(safe-area-inset-top,0px)) 14px calc(48px + env(safe-area-inset-bottom));
+    radial-gradient(52% 26% at 80% 5%,  rgba(255,246,216,.72) 0%, rgba(255,246,216,0) 62%),
+    radial-gradient(38% 15% at 17% 12%, rgba(255,255,255,.82) 0%, rgba(255,255,255,0) 70%),
+    radial-gradient(30% 12% at 58% 19%, rgba(255,255,255,.66) 0%, rgba(255,255,255,0) 70%),
+    radial-gradient(44% 16% at 92% 25%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 72%),
+    linear-gradient(180deg,#a4cee6 0%,#c3dee7 22%,#e2ece4 43%,#d5e6c4 68%,#b4d49a 100%);
+  background-attachment:fixed;background-repeat:no-repeat;
 }
-/* paper grain */
-body::after{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.045;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.wrap{max-width:560px;margin:0 auto}
-.hide{display:none !important}
-::selection{background:var(--cardinal);color:#fff}
-:focus-visible{outline:2px solid var(--cardinal);outline-offset:2px}
+.hide{display:none!important}
+.wrap{max-width:720px;margin:0 auto}
 
-.eyebrow{font:700 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim2)}
-h1{font:800 20px/1 var(--display);font-variation-settings:'wdth' 118;
-   letter-spacing:-.005em;text-transform:uppercase;margin:5px 0 0}
-h2{font:700 10.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
-   color:var(--dim2);margin:0 0 12px;display:flex;justify-content:space-between;
-   align-items:baseline;gap:10px}
-h2 small{font-weight:400;letter-spacing:.04em;text-transform:none;color:var(--dim2);opacity:.75}
-label{display:block;font:500 10px/1 var(--mono);letter-spacing:.12em;
-      text-transform:uppercase;color:var(--dim2);margin:12px 0 5px}
+h1{font-size:29px;font-weight:500;letter-spacing:-.03em;margin:2px 0 14px;line-height:1.02}
+h2{font-size:15px;font-weight:600;letter-spacing:-.01em;margin:0 0 10px}
+h2 small{font-weight:400;font-size:12px;color:var(--ink-soft);margin-left:7px}
 
-header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px}
-.savestate{font:500 10.5px/1 var(--mono);letter-spacing:.08em;color:var(--dim2);white-space:nowrap}
-.savestate.on{color:var(--go)} .savestate.err{color:var(--cardinal)}
+.sky{padding:28px 18px 20px}
+.sky .when{font-size:12.5px;color:var(--ink-mid)}
+.stats{display:flex;align-items:baseline;gap:19px;flex-wrap:wrap}
+.stat b{font-family:"Spline Sans Mono",monospace;font-size:20px;font-weight:500;
+  font-variant-numeric:tabular-nums;letter-spacing:-.035em}
+.stat span{font-size:11.5px;color:var(--ink-mid);margin-left:3px}
+.pub{margin-left:auto;font-size:11px;color:var(--ink-mid);text-align:right;line-height:1.35}
 
-.tabs{display:flex;border-bottom:1px solid var(--line);margin-bottom:14px;position:relative}
-.tabs button{flex:1;background:none;border:0;color:var(--dim2);padding:10px 1px 9px;border-radius:0;
-  font:700 9.5px/1 var(--mono);letter-spacing:.02em;text-transform:uppercase;
-  transition:color .22s ease;position:relative}
-.tabs button.on{color:var(--bone)}
-.tabs .dot{position:absolute;top:7px;margin-left:3px;width:5px;height:5px;
-  border-radius:50%;background:var(--cardinal)}
-.tabink{position:absolute;bottom:-1px;height:2px;background:var(--cardinal);
-  width:0;left:0;transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1)}
+.wknav{display:flex;align-items:center;gap:8px;padding:0 18px 10px;flex-wrap:wrap}
+.wknav button,.pill{
+  border:1px solid var(--rule);background:rgba(255,255,255,.5);border-radius:999px;
+  font:inherit;font-size:12.5px;color:var(--ink-mid);min-height:36px;padding:0 13px;
+  cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wknav button:focus-visible,.pill:focus-visible{outline:2px solid var(--long);outline-offset:2px}
 
-.card{background:linear-gradient(180deg,var(--surface),var(--surface2));
-  border:1px solid var(--line);border-radius:3px;padding:15px 14px;margin-bottom:9px}
+/* ── day list ─────────────────────────────────── */
+.days{padding:8px 14px 12px;background:var(--wash)}
+.line{position:relative;display:grid;grid-template-columns:66px 1fr auto;
+  align-items:baseline;gap:10px;width:100%;text-align:left;
+  padding:14px 6px 14px 12px;border:0;background:none;font:inherit;color:inherit;
+  border-bottom:1px solid var(--rule-soft);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;border-radius:3px}
+.line:last-child{border-bottom:none}
+.line::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:0;border-radius:2px;background:transparent;transition:height .2s}
+.line.workout::before{height:20px;background:var(--quality)}
+.line.long::before   {height:20px;background:var(--long)}
+.line.race::before   {height:26px;background:var(--race)}
+.line .d{font-size:12.5px;color:var(--ink-mid)}
+.line .what{font-size:13.5px;font-weight:400;color:var(--ink-mid);
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.line .val{font-family:"Spline Sans Mono",monospace;font-size:12.5px;
+  color:var(--ink-mid);font-variant-numeric:tabular-nums}
+.line .val.when{font-family:inherit;letter-spacing:0}
+.line.workout .what{font-weight:700;color:var(--quality);font-size:14.5px;letter-spacing:-.01em}
+.line.long    .what{font-weight:700;color:var(--long);font-size:14.5px;letter-spacing:-.01em}
+.line.race    .what{font-weight:700;color:var(--race);font-size:15px;letter-spacing:-.015em}
+.line.easy .what{font-weight:400;color:var(--ink-mid)}
+.line.off  .what{font-weight:400;color:var(--ink-soft)}
+.line.future .d,.line.future .val{color:var(--ink-soft)}
+.line.future.easy .what,.line.future.off .what{color:var(--ink-soft)}
+.line.miss .val{color:var(--ink-soft);font-family:inherit}
+.line.miss .what{color:var(--ink-soft)}
+.done{color:var(--grass)}
+@media (hover:hover){.line:hover{background:rgba(255,255,255,.36)}}
+.line:focus-visible{outline:2px solid var(--long);outline-offset:-2px}
 
-input,textarea,select{width:100%;padding:11px 12px;border-radius:2px;
-  border:1px solid var(--line);background:var(--sunk);color:var(--bone);
-  font:400 16px/1.3 var(--mono)}
-textarea{min-height:88px;font-family:var(--display);font-size:15px}
-textarea.mono{min-height:112px;font:400 12px/1.45 var(--mono)}
-input::placeholder,textarea::placeholder{color:var(--dim2);opacity:.6}
-button{padding:12px 15px;border:0;border-radius:2px;background:var(--cardinal);color:#fff;
-  font:700 11.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;
-  transition:transform .1s ease,background .18s ease,border-color .18s ease,color .18s ease}
-button:active{transform:scale(.975)}
-button.ghost{background:transparent;border:1px solid var(--line);color:var(--dim)}
-button.wide{width:100%;margin-top:11px}
-.status{font:400 12px/1.5 var(--mono);margin-top:11px;color:var(--dim);white-space:pre-wrap}
-.status.err{color:var(--cardinal)} .status.ok{color:var(--go)}
+/* ── cards ────────────────────────────────────── */
+.card{position:relative;background:var(--paper);
+  border:1px solid rgba(28,43,36,.1);border-radius:var(--r-card);
+  margin:12px 0 16px;overflow:hidden;
+  box-shadow:0 1px 0 #fff inset,0 2px 4px -2px rgba(28,43,36,.16),
+             0 20px 38px -28px rgba(28,43,36,.6)}
+.card.workout::before,.card.long::before,.card.race::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px}
+.card.workout::before{background:var(--quality)}
+.card.long::before   {background:var(--long)}
+.card.race::before   {background:var(--race)}
+.card-top{padding:17px 16px 15px}
+.card-when{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}
+.card-when b{font-size:15px;font-weight:500;letter-spacing:-.01em}
+.tag-today{font-size:10.5px;color:var(--grass);
+  border:1px solid rgba(53,103,74,.34);border-radius:999px;padding:2px 9px}
+.plan-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.plan-h b{font-size:21px;font-weight:700;letter-spacing:-.03em}
+.card.workout .plan-h b{color:var(--quality)}
+.card.long .plan-h b{color:var(--long)}
+.card.race .plan-h b{color:var(--race)}
+.card.easy .plan-h b,.card.off .plan-h b{font-weight:500;font-size:18px;color:var(--ink)}
+.plan-h .target{font-family:"Spline Sans Mono",monospace;font-size:12.5px;
+  color:var(--ink-mid);white-space:nowrap}
+.plan-detail{font-size:13.5px;color:var(--ink-mid);margin-top:4px}
+.coach{font-size:13.5px;color:var(--ink-mid);margin-top:10px;padding-left:12px;
+  border-left:2px solid rgba(66,87,77,.42);line-height:1.45}
 
-.banner{border:1px solid var(--cardinal);border-left-width:3px;background:rgba(216,30,54,.1);
-  border-radius:2px;padding:11px 12px;margin-bottom:10px;
-  font:400 13px/1.45 var(--display);display:flex;gap:10px;align-items:center}
-.banner.ok{border-color:var(--go);background:rgba(127,176,138,.09)}
-.banner span{flex:1}
-.banner button{padding:8px 11px;font-size:10.5px}
+.log{background:var(--paper-2);border-top:1px solid var(--rule-soft);padding:12px 16px 14px}
+.sess{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:8px 0;border-bottom:1px solid var(--rule-soft)}
+.sess:last-of-type{border-bottom:none}
+.fld{display:flex;align-items:baseline;gap:4px}
+.fld input{width:54px;background:transparent;border:0;border-bottom:1.5px solid rgba(28,43,36,.2);
+  font-family:"Spline Sans Mono",monospace;font-size:16px;font-weight:500;
+  color:var(--ink);padding:2px 0;text-align:right;font-variant-numeric:tabular-nums}
+.fld input:focus{outline:none;border-bottom-color:var(--grass)}
+.fld u{font-size:11px;color:var(--ink-soft);text-decoration:none}
+.fld.time input{width:66px}
+.sel{font-family:inherit;font-size:13px;color:var(--ink-mid);background:var(--paper);
+  border:1px solid var(--rule);border-radius:999px;padding:7px 10px;min-height:38px}
+.sel:focus-visible{outline:2px solid var(--long);outline-offset:1px}
+.rm{border:0;background:none;font:inherit;font-size:15px;color:var(--ink-soft);
+  cursor:pointer;padding:6px 8px;min-height:38px;margin-left:auto}
+.rm:hover{color:var(--race)}
+.snote{width:100%;background:transparent;border:0;border-bottom:1px solid var(--rule-soft);
+  font:inherit;font-size:13px;color:var(--ink-mid);padding:6px 0}
+.snote:focus{outline:none;border-bottom-color:var(--grass)}
+.adds{display:flex;gap:16px;padding-top:10px}
+.adds button{border:0;background:none;font:inherit;font-size:12.5px;color:var(--grass);
+  cursor:pointer;padding:6px 0;min-height:38px}
+.adds button:hover{text-decoration:underline}
 
-.wknav{display:flex;align-items:stretch;gap:7px;margin-bottom:11px}
-.wknav button{background:var(--surface);border:1px solid var(--line);color:var(--bone);
-  padding:0 15px;font:400 17px/1 var(--display);letter-spacing:0}
-.wknav .mid{flex:1;text-align:center;padding:9px 6px;border:1px solid var(--line);
-  background:var(--surface);border-radius:3px}
-.wknav .mid b{display:block;font:700 13px/1.2 var(--mono);letter-spacing:.06em}
-.wknav .mid span{display:block;font:400 10.5px/1.4 var(--mono);letter-spacing:.09em;
-  text-transform:uppercase;color:var(--dim2);margin-top:3px}
+/* felt — per session. 24 x 44 target (WCAG 2.5.8 AA); five 44-wide targets
+   cannot fit a 390px row and would steal each other's taps. */
+.felt{display:flex;align-items:center;gap:13px}
+.felt .lab{font-size:11px;color:var(--ink-soft);margin-right:-4px}
+.fdot{position:relative;width:11px;height:11px;border-radius:50%;padding:0;
+  background:none;border:1.5px solid rgba(66,87,77,.5);cursor:pointer;
+  transition:background .12s,border-color .12s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.fdot::before{content:"";position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);width:24px;height:44px}
+.fdot.on{background:var(--grass);border-color:var(--grass)}
+.fdot:focus-visible{outline:2px solid var(--long);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-.figs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:18px}
-.figs b{display:block;font:500 26px/1 var(--mono);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.figs span{display:block;font:500 9.5px/1 var(--mono);letter-spacing:.13em;
-  text-transform:uppercase;color:var(--dim2);margin-top:6px}
-.meter{position:relative;padding-top:15px}
-.meter .capmark{position:absolute;top:0;left:60%;transform:translateX(-50%);
-  font:700 9px/1 var(--mono);letter-spacing:.1em;color:var(--cardinal);white-space:nowrap}
-.track{position:relative;height:10px;background:var(--sunk);
-  border:1px solid var(--line);border-radius:1px;overflow:hidden}
-.track::before{content:'';position:absolute;inset:0;background:var(--load);opacity:.1}
-.track .fill{position:absolute;inset:0;background:var(--load);
-  clip-path:inset(0 100% 0 0);transition:clip-path .55s cubic-bezier(.4,0,.2,1)}
-.track .cap{position:absolute;top:0;bottom:0;left:60%;width:1px;background:var(--cardinal);opacity:.9}
-@keyframes capflash{0%,100%{opacity:.9;box-shadow:none}
-  40%{opacity:1;box-shadow:0 0 7px 2px rgba(216,30,54,.85)}}
-.track .cap.flash{animation:capflash .85s ease-out 1}
-.meterlegend{display:flex;justify-content:space-between;margin-top:9px;
-  font:500 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim2)}
-.meterlegend b{font-weight:700;font-variant-numeric:tabular-nums}
-.vs{font:400 12px/1.5 var(--mono);color:var(--dim);margin-top:11px}
-.vs u{text-decoration:none;color:var(--cardinal)}
+/* ── panels ───────────────────────────────────── */
+.panel{background:var(--paper);border:1px solid rgba(28,43,36,.1);border-radius:var(--r-card);
+  margin:0 14px 14px;padding:16px;
+  box-shadow:0 1px 0 #fff inset,0 2px 4px -2px rgba(28,43,36,.14)}
+.panel.coachonly{border-color:rgba(139,85,6,.4);background:#fdfaf4}
+.empty{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.rowline{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  padding:9px 0;border-bottom:1px solid var(--rule-soft);font-size:13.5px}
+.rowline:last-child{border-bottom:none}
+.rowline b{font-family:"Spline Sans Mono",monospace;font-weight:500;
+  font-variant-numeric:tabular-nums;font-size:13px}
+.rowline .sub{font-size:11.5px;color:var(--ink-soft);display:block;margin-top:1px}
+.grow{flex:1;min-width:0}
+.cd{font-family:"Spline Sans Mono",monospace;font-size:13px;color:var(--ink-mid);white-space:nowrap}
+.cd.soon{color:var(--race);font-weight:600}
 
-.day{position:relative;display:grid;grid-template-columns:50px 1fr;gap:12px;
-  background:linear-gradient(180deg,var(--surface),var(--surface2));
-  border:1px solid var(--line);border-radius:3px;
-  padding:13px 13px 13px 11px;margin-bottom:7px}
-.day::before{content:'';position:absolute;left:0;top:-1px;bottom:-1px;width:2px;
-  background:var(--edge,var(--line2));border-radius:3px 0 0 3px}
-.day.off{opacity:.5}
-.day.race{border-color:var(--cardinal)}
-.gutter b{display:block;font:700 12px/1 var(--mono);letter-spacing:.09em}
-.gutter span{display:block;font:400 10.5px/1 var(--mono);color:var(--dim2);margin-top:5px}
-.gutter .flags{margin-top:9px;display:flex;flex-direction:column;gap:4px}
-.flag{font:700 8.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
-  color:var(--dim2);border:1px solid var(--line2);border-radius:1px;padding:3px 0;text-align:center}
-.flag.lift{color:var(--amber);border-color:#5A4526}
-.flag.race{color:#fff;background:var(--cardinal);border-color:var(--cardinal)}
-.wtype{font:600 15.5px/1.25 var(--display);font-variation-settings:'wdth' 108}
-.wdetail{font:400 13px/1.45 var(--display);color:var(--dim);margin-top:3px}
-.coachtext{font:400 11.5px/1.45 var(--mono);color:var(--dim2);
-  border-left:1px solid var(--line2);padding-left:9px;margin:9px 0 0}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.chip{font:500 11.5px/1 var(--mono);padding:6px 8px;border-radius:1px;
-  border:1px solid var(--line2);color:var(--dim);font-variant-numeric:tabular-nums}
-.chip k{font-weight:700;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
-  margin-right:6px;opacity:.75}
-.chip.coach{color:var(--coach);border-color:#33404F}
-.chip.plan{color:var(--bone);border-color:#5A2B31;background:rgba(216,30,54,.1)}
-.tags{display:flex;flex-wrap:wrap;align-items:center;gap:7px;
-  font:500 10px/1.4 var(--mono);letter-spacing:.11em;text-transform:uppercase;
-  color:var(--dim2);margin-top:9px}
-.tags .sep{opacity:.45}
-.tags .mk{font-size:11px;letter-spacing:0}
-.tags .mk.quality{color:var(--cardinal)}
-.tags .mk.build{color:var(--go)}
-.tags .mk.dip{color:var(--amber)}
-.g{width:13px;height:13px;vertical-align:-2.5px;margin-right:3px}
-.g.run{fill:currentColor}
-.tags .runc{color:#C9A9A1} .tags .xtc{color:var(--coach)}
-.note{font:400 12px/1.45 var(--display);color:var(--dim);margin-top:7px}
-.note::before{content:'△ ';color:var(--amber)}
-.dbl{font:500 11.5px/1.4 var(--mono);color:var(--amber);margin-top:7px}
-.entry{display:flex;gap:7px;margin-top:11px}
-.entry div{flex:1;position:relative}
-.entry input{padding:10px 36px 10px 11px;font-variant-numeric:tabular-nums}
-.entry u{position:absolute;right:11px;top:50%;transform:translateY(-50%);
-  font:500 10px/1 var(--mono);letter-spacing:.1em;color:var(--dim2);text-decoration:none}
-.empty{font:400 13px/1.45 var(--display);color:var(--dim2)}
+.area{padding:9px 0;border-bottom:1px solid var(--rule-soft)}
+.area:last-child{border-bottom:none}
+.area .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.area .nm{font-size:13.5px}
+.area .word{font-size:11.5px;color:var(--ink-soft)}
+.area input[type=range]{width:100%;margin:7px 0 0;accent-color:var(--grass);min-height:32px}
+.boxes{display:flex;flex-wrap:wrap;gap:7px}
+.box{border:1px solid var(--rule);background:var(--paper);border-radius:999px;
+  font:inherit;font-size:12.5px;color:var(--ink-mid);padding:0 13px;min-height:38px;
+  cursor:pointer;-webkit-tap-highlight-color:transparent}
+.box.on{background:var(--grass);border-color:var(--grass);color:var(--paper)}
+.box:focus-visible{outline:2px solid var(--long);outline-offset:2px}
 
-.slider{margin-bottom:15px}
-.slider .top{display:flex;align-items:baseline;gap:9px;font:400 13.5px/1.2 var(--display)}
-.slider .top i{flex:1;font:400 10.5px/1 var(--mono);letter-spacing:.08em;
-  text-transform:uppercase;color:var(--dim2);text-align:right;font-style:normal;
-  transition:color .2s ease}
-.slider .top b{font:700 13px/1 var(--mono);min-width:14px;text-align:right;
-  color:var(--sev,var(--dim2));transition:color .2s ease}
-input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;
-  background:transparent;padding:0;border:0;margin-top:4px}
-input[type=range]::-webkit-slider-runnable-track{height:3px;
-  background:linear-gradient(90deg,var(--sev,var(--line2)) var(--fill,0%),var(--line2) var(--fill,0%))}
-input[type=range]::-moz-range-track{height:3px;
-  background:linear-gradient(90deg,var(--sev,var(--line2)) var(--fill,0%),var(--line2) var(--fill,0%))}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;
-  border-radius:1px;background:var(--sev,var(--bone));margin-top:-9px;
-  transition:background .2s ease,transform .12s ease}
-input[type=range]:active::-webkit-slider-thumb{transform:scale(1.12)}
-input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:1px;
-  background:var(--sev,var(--bone))}
+textarea,input[type=text],input[type=email],input[type=password],input[type=date],input[type=number]{
+  width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--paper);
+  border:1px solid var(--rule);border-radius:4px;padding:10px;margin-top:4px}
+textarea{min-height:88px;resize:vertical}
+textarea.mono{font-family:"Spline Sans Mono",monospace;font-size:12.5px;min-height:150px}
+label{display:block;font-size:12px;color:var(--ink-soft);margin-top:11px}
+.wide{width:100%;margin-top:12px}
+button.solid{background:var(--grass);color:var(--paper);border:0;border-radius:4px;
+  font:inherit;font-size:15px;font-weight:500;min-height:46px;cursor:pointer}
+button.solid.warn{background:var(--quality)}
+button.ghost{background:none;border:1px solid var(--rule);border-radius:4px;
+  font:inherit;font-size:13.5px;color:var(--ink-mid);min-height:42px;cursor:pointer;padding:0 14px}
+.status{font-size:12.5px;color:var(--ink-soft);margin-top:9px;line-height:1.5}
+.status.err{color:var(--race)}
+.status.ok{color:var(--grass)}
 
-.boxes{display:flex;gap:5px}
-.boxes button{flex:1;padding:12px 0;background:var(--sunk);
-  border:1px solid var(--line);color:var(--dim2);font-size:10px;letter-spacing:.06em}
-.boxes button.on{background:var(--cardinal);border-color:var(--cardinal);color:#fff}
-.daydetail{display:flex;align-items:center;gap:9px;margin-top:9px}
-.daydetail span{font:700 10.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;
-  color:var(--dim);width:26px;flex-shrink:0}
-.vibes{display:flex;flex-wrap:wrap;gap:6px}
-.vibes button{background:var(--sunk);border:1px solid var(--line);color:var(--dim);
-  padding:10px 13px;font-size:10.5px}
-.vibes button.on{background:var(--bone);border-color:var(--bone);color:var(--ink)}
-.t2{border:1px solid var(--line);border-left:2px solid var(--amber);border-radius:2px;
-  padding:12px;margin-bottom:9px;background:var(--sunk)}
-.t2 .row2{display:flex;gap:8px}
-.t2 .row2>div{flex:1}
-.t2 label:first-child{margin-top:0}
-.rmv{background:transparent;border:1px solid var(--line);color:var(--dim2);
-  padding:8px 11px;font-size:10px;margin-top:11px}
-.tally{display:flex;justify-content:space-between;gap:12px;padding:9px 0;
-  border-bottom:1px solid var(--line);font:400 13px/1.3 var(--display)}
-.tally:last-child{border-bottom:0}
-.tally b{font:500 13px/1.3 var(--mono);color:var(--dim);font-variant-numeric:tabular-nums;text-align:right}
+/* ── goals ────────────────────────────────────── */
+.tiers{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+.tier{border:1px solid var(--rule);background:var(--paper);border-radius:4px;
+  font:inherit;font-size:12px;color:var(--ink-mid);padding:7px 11px;min-height:38px;
+  cursor:pointer;text-align:left;line-height:1.3}
+.tier b{display:block;font-size:10.5px;text-transform:none;color:var(--ink-soft);font-weight:500}
+.tier.hit{background:var(--long);border-color:var(--long);color:var(--paper)}
+.tier.hit b{color:rgba(255,255,255,.72)}
+.streak{display:flex;gap:4px;margin-top:8px}
+.streak i{width:11px;height:11px;border-radius:2px;background:var(--rule-soft);
+  border:1px solid var(--rule)}
+.streak i.hit{background:var(--grass);border-color:var(--grass)}
+.streak i.now{outline:1.5px solid var(--ink-mid);outline-offset:1px}
+.tick{border:1px solid var(--rule);background:var(--paper);border-radius:999px;
+  min-width:44px;min-height:38px;font:inherit;font-size:14px;color:var(--ink-mid);cursor:pointer}
+.tick.on{background:var(--grass);border-color:var(--grass);color:var(--paper)}
+.trophy{display:inline-block;border:1px solid var(--long);color:var(--long);
+  border-radius:999px;font-size:11.5px;padding:4px 10px;margin:0 6px 6px 0}
 
-.countdown .n{font:500 62px/.9 var(--mono);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
-.countdown .u{font:700 10.5px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;
-  color:var(--dim2);margin-left:9px}
-.countdown .nm{font:600 17px/1.25 var(--display);font-variation-settings:'wdth' 108;margin-top:12px}
-.countdown .lo{font:400 12px/1.4 var(--mono);color:var(--dim2);margin-top:5px}
-.meetrow{display:grid;grid-template-columns:46px 1fr;gap:11px;padding:10px 0;
-  border-bottom:1px solid var(--line);align-items:baseline}
-.meetrow:last-child{border-bottom:0}
-.meetrow .d{font:500 13px/1 var(--mono);color:var(--dim);text-align:right;font-variant-numeric:tabular-nums}
-.meetrow .n{font:400 13.5px/1.35 var(--display)}
-.meetrow .s{font:400 10.5px/1.3 var(--mono);letter-spacing:.06em;color:var(--dim2);
-  text-transform:uppercase;margin-top:3px}
-.meetrow.goal{border-left:2px solid var(--cardinal);padding-left:9px;margin-left:-11px}
-.meetrow.goal .n{color:var(--bone);font-weight:600}
-.meetrow.goal .d{color:var(--cardinal)}
-.meetrow.est .n{color:var(--dim)}
+/* ── lift ─────────────────────────────────────── */
+.cyc{display:flex;align-items:center;gap:10px;padding:0 18px 10px}
+.cyc .lbl{flex:1;font-size:13px;color:var(--ink-mid);text-align:center}
+.wkpick{display:flex;gap:7px;padding:0 14px 12px;overflow-x:auto}
+.wkpick button{flex:none;border:1px solid var(--rule);background:rgba(255,255,255,.55);
+  border-radius:5px;font:inherit;font-size:12px;color:var(--ink-mid);
+  min-height:44px;padding:0 12px;cursor:pointer;line-height:1.25}
+.wkpick button.on{background:var(--stone);border-color:var(--stone);color:var(--paper)}
+.wkpick b{display:block;font-family:"Spline Sans Mono",monospace;font-size:11px}
+.dayc{display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  border:0;border-left:3px solid var(--stone);background:var(--paper);
+  font:inherit;color:inherit;padding:14px 14px;margin-bottom:8px;border-radius:4px;
+  cursor:pointer;min-height:56px;box-shadow:0 1px 0 #fff inset,0 2px 4px -2px rgba(28,43,36,.14)}
+.dayc .nm{flex:1;font-size:14px;font-weight:500}
+.dayc .sub{font-size:11.5px;color:var(--ink-soft);display:block;font-weight:400;margin-top:2px}
+.dayc .ct{font-family:"Spline Sans Mono",monospace;font-size:12.5px;color:var(--ink-mid)}
+.ex{padding:12px 0;border-bottom:1px solid var(--rule-soft)}
+.ex:last-child{border-bottom:none}
+.ex .hd{display:flex;align-items:center;gap:12px}
+.ex .nm{flex:1;font-size:14px}
+.ex .dose{font-family:"Spline Sans Mono",monospace;font-size:12.5px;color:var(--ink-mid)}
+.ex .cue{font-size:12.5px;color:var(--ink-soft);margin-top:5px;line-height:1.45}
+.ex .gate{font-size:12px;color:var(--ink-mid);margin-top:7px;padding-left:10px;
+  border-left:2px solid rgba(116,106,128,.5);line-height:1.45}
+.steps{display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap}
+.steps .cur{font-size:12px;color:var(--ink-mid);flex:1;min-width:120px}
+.steps button{border:1px solid var(--rule);background:var(--paper);border-radius:999px;
+  font:inherit;font-size:12px;color:var(--ink-mid);min-height:38px;padding:0 12px;cursor:pointer}
+.steps button[disabled]{opacity:.4;cursor:default}
+.chk{width:26px;height:26px;border-radius:5px;border:1.5px solid var(--rule);
+  background:var(--paper);cursor:pointer;flex:none;font-size:14px;color:var(--paper);
+  line-height:1;padding:0}
+.chk.on{background:var(--stone);border-color:var(--stone)}
 
-.goal{border:1px solid var(--line);border-radius:2px;padding:13px;margin-bottom:9px;background:var(--sunk)}
-.goal.hit{border-left:2px solid var(--go)}
-.goal h3{font:600 15.5px/1.3 var(--display);margin:0 0 3px;font-variation-settings:'wdth' 108}
-.goal .season{font:500 9.5px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--dim2)}
-.tier{display:grid;grid-template-columns:56px 1fr;gap:10px;align-items:center;
-  padding:8px 0;border-bottom:1px solid var(--line)}
-.tier:last-of-type{border-bottom:0}
-.tier .lb{font:700 9.5px/1 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--dim2)}
-.tier .tx{font:400 13.5px/1.35 var(--display)}
-.tier.won .tx{color:var(--go);font-weight:600}
-.tier.won .lb{color:var(--go)}
-.tiermark{display:flex;gap:5px;margin-top:10px}
-.tiermark button{flex:1;background:var(--sunk);border:1px solid var(--line);color:var(--dim2);
-  font-size:9.5px;padding:9px 0}
-.tiermark button.on{background:var(--go);border-color:var(--go);color:var(--ink)}
-.pg{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
-.pg:last-child{border-bottom:0}
-.pg .nm{flex:1;font:400 14px/1.3 var(--display)}
-.pg .ct{font:500 12px/1 var(--mono);color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
-.tick{width:38px;height:38px;padding:0;flex-shrink:0;background:var(--sunk);
-  border:1px solid var(--line);color:var(--dim2);font-size:15px}
-.tick.on{background:var(--go);border-color:var(--go);color:var(--ink)}
-@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
-.tick.pop{animation:pop .3s cubic-bezier(.3,1.4,.5,1) 1}
-.streak{display:flex;gap:3px;margin-top:7px}
-.streak i{flex:1;height:5px;background:var(--line);border-radius:1px;
-  transition:background .25s ease}
-.streak i.hit{background:var(--go)}
-.streak i.now{outline:1px solid var(--bone);outline-offset:1px}
-.reminder{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
-.reminder:last-child{border-bottom:0}
-.reminder .nm{flex:1;font:400 13.5px/1.3 var(--display)}
-.trophy{display:flex;gap:9px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line);
-  font:400 13.5px/1.35 var(--display)}
-.trophy:last-child{border-bottom:0}
-.trophy b{font:700 9.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--go)}
+/* ── calendar ─────────────────────────────────── */
+.calgrid{padding:0 4px 8px}
+.calhead,.calweek{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.caldays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-column:1/-1}
+.calhead .caldays span{text-align:center;font-size:11px;color:var(--ink-soft);font-weight:500}
+.calweek{border-top:1px solid var(--rule-soft);padding:8px 0 4px}
+.calwk{grid-column:1;grid-row:1;font-size:11.5px;color:var(--ink-soft)}
+.calwk b{color:var(--ink-mid);font-weight:500;margin-right:4px}
+.caltot{grid-column:2;grid-row:1;font-family:"Spline Sans Mono",monospace;font-size:13px;
+  color:var(--ink-mid);font-variant-numeric:tabular-nums}
+.calweek .caldays{grid-row:2}
+.cell{position:relative;min-height:52px;display:flex;align-items:center;justify-content:center;
+  gap:3px;border:0;background:none;padding:2px;font:inherit;color:inherit;cursor:pointer;
+  border-radius:5px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.cell:disabled{cursor:default}
+.cell:focus-visible{outline:2px solid var(--long);outline-offset:-2px}
+.dot{position:relative;border-radius:50%;flex:none;display:flex;align-items:center;
+  justify-content:center;font-family:"Spline Sans Mono",monospace;font-size:10.5px;
+  font-weight:500;font-variant-numeric:tabular-nums;color:var(--paper);
+  letter-spacing:-.03em;line-height:1}
+.dot.run{background:var(--grass)}
+.dot.run.long{background:var(--long)}
+.dot.lift{background:var(--stone)}
+.dot.cross{background:rgba(70,115,141,.15);border:1.5px solid var(--shade);
+  box-shadow:inset 0 0 0 2.5px var(--paper);color:#2f4e60}
+.dot.workout{box-shadow:0 0 0 2px var(--paper),0 0 0 3.5px var(--quality)}
+.dot.race{box-shadow:0 0 0 2px var(--paper),0 0 0 3.5px var(--race)}
+.dot+.dot{margin-left:-4px;z-index:1;outline:1.5px solid var(--paper)}
+.rest{width:5px;height:5px;border-radius:50%;background:rgba(28,43,36,.18);flex:none}
+.legend{display:flex;flex-wrap:wrap;gap:9px 15px;padding-top:12px;margin-top:6px;
+  border-top:1px solid var(--rule-soft);font-size:11.5px;color:var(--ink-soft)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;flex:none}
+.legend i.x{background:rgba(70,115,141,.15);border:1.5px solid var(--shade)}
 
-@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
-.rise{animation:rise .42s cubic-bezier(.2,.7,.3,1) both}
-@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+/* ── dialog (replaces every prompt() in the app) ── */
+.scrim{position:fixed;inset:0;z-index:30;background:rgba(28,43,36,.42);
+  display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.dlg{background:var(--paper);border-radius:8px;width:100%;max-width:520px;
+  max-height:88vh;overflow:auto;padding:18px 16px calc(16px + env(safe-area-inset-bottom));
+  box-shadow:0 24px 60px -24px rgba(28,43,36,.7)}
+.dlg h2{margin-bottom:2px}
+.dlg .who{font-size:12.5px;color:var(--ink-soft);margin-bottom:6px}
+.dlgbtns{display:flex;gap:10px;margin-top:16px}
+.dlgbtns button{flex:1;min-height:46px;border-radius:4px;font:inherit;font-size:15px;cursor:pointer}
+.dlgbtns .go{background:var(--grass);color:var(--paper);border:0}
+.dlgbtns .no{background:none;border:1px solid var(--rule);color:var(--ink-mid)}
+@media (min-width:560px){.scrim{align-items:center}}
+
+/* ── tabs / banner ────────────────────────────── */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;
+  display:grid;grid-template-columns:repeat(6,1fr);
+  background:var(--paper);border-top:1px solid var(--rule);
+  padding-bottom:env(safe-area-inset-bottom);
+  box-shadow:0 -8px 24px -20px rgba(28,43,36,.7)}
+.tabs button{border:0;background:none;font:inherit;font-size:11.5px;color:var(--ink-soft);
+  min-height:44px;padding:13px 2px 14px;cursor:pointer;position:relative;
+  -webkit-tap-highlight-color:transparent}
+.tabs button.on{color:var(--grass)}
+.tabs button.on::before{content:"";position:absolute;top:0;left:50%;
+  transform:translateX(-50%);width:26px;height:2px;background:var(--grass)}
+.banner{position:fixed;left:12px;right:12px;bottom:calc(72px + env(safe-area-inset-bottom));
+  z-index:20;background:var(--ink);color:var(--paper);border-radius:5px;
+  padding:11px 13px;font-size:13px;display:flex;gap:12px;align-items:center;
+  box-shadow:0 14px 30px -18px rgba(28,43,36,.9)}
+.banner button{margin-left:auto;background:none;border:1px solid rgba(255,255,255,.4);
+  color:var(--paper);border-radius:999px;font:inherit;font-size:12px;padding:5px 11px;cursor:pointer}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+
 <div class="wrap">
 
-  <div id="loginCard" class="card hide rise">
-    <div class="eyebrow">Stevens · distance</div>
+  <div id="loginCard" class="panel hide" style="margin-top:40px">
     <h1 style="margin-bottom:4px">Training Hub</h1>
     <label for="email">Email</label>
     <input id="email" type="email" autocomplete="username" inputmode="email" autocapitalize="off">
     <label for="pw">Password</label>
     <input id="pw" type="password" autocomplete="current-password">
-    <button class="wide" id="loginBtn">Sign in</button>
+    <button class="solid wide" id="loginBtn">Sign in</button>
     <div class="status" id="loginStatus"></div>
   </div>
 
-  <div id="app" class="hide">
-    <header class="rise">
-      <div><div class="eyebrow" id="eyebrow">Home</div><h1 id="viewTitle">Home</h1></div>
-      <span class="savestate" id="save">—</span>
-    </header>
+  <main id="app" class="hide">
 
-    <div class="tabs rise" style="animation-delay:.04s">
-      <button data-tab="home" class="on">Home</button>
-      <button data-tab="week">Week</button>
-      <button data-tab="retro">Reset<span class="dot hide" id="retroDot"></span></button>
-      <button data-tab="goals">Goals</button>
-      <button data-tab="export">Export</button>
-      <span class="tabink" id="tabink"></span>
-    </div>
-
-    <div id="banner" class="banner hide"><span id="bannerText"></span><button id="bannerBtn" class="ghost">Retry</button></div>
-
-    <div class="wknav rise hide" id="wknav" style="animation-delay:.08s">
-      <button id="prevW" aria-label="Previous week">‹</button>
-      <div class="mid"><b id="wkTitle">—</b><span id="wkSub">—</span></div>
-      <button id="nextW" aria-label="Next week">›</button>
-    </div>
-    <button class="ghost wide hide" id="todayBtn" style="margin:0 0 10px">Go to this week</button>
-
-    <!-- ================= HOME ================= -->
-    <div id="tab-home">
-      <div class="card rise" style="animation-delay:.1s">
-        <h2>Next up</h2>
-        <div id="countdown" class="countdown"></div>
+    <!-- ═════════ HOME ═════════ -->
+    <section id="tab-home" class="tab hide">
+      <div class="sky">
+        <div class="when" id="homeGreet">Welcome</div>
+        <h1 id="homeName">—</h1>
       </div>
-      <div class="card rise" style="animation-delay:.14s">
-        <h2>Schedule</h2>
-        <div id="meetList"></div>
+      <div class="panel hide" id="coachSwitch">
+        <h2>Viewing <small>coach</small></h2>
+        <div class="boxes" id="athleteList"></div>
       </div>
-      <div class="card rise" style="animation-delay:.18s">
-        <h2>This week <small id="homeWeekLabel"></small></h2>
+      <div class="panel">
+        <h2>Coming up</h2>
+        <div id="homeRaces"><div class="empty">Loading…</div></div>
+      </div>
+      <div class="panel">
+        <h2>This week</h2>
         <div id="homeSnapshot"></div>
       </div>
-    </div>
+    </section>
 
-    <!-- ================= WEEK ================= -->
-    <div id="tab-week" class="hide">
-      <div class="card" id="reminderCard">
-        <h2>Process goals <small>this week</small></h2>
-        <div id="reminders"></div>
+    <!-- ═════════ WEEK ═════════ -->
+    <section id="tab-week" class="tab hide">
+      <div class="sky">
+        <div class="when" id="wkWhen">—</div>
+        <h1 id="wkLabel">Week</h1>
+        <div class="stats" id="wkStats"></div>
       </div>
-
-      <div class="card">
-        <div class="figs">
-          <div><b id="tRun">0</b><span>run mi</span></div>
-          <div><b id="tX">0</b><span>xt min</span></div>
-          <div><b id="tSpr">0</b><span>springer</span></div>
-          <div><b id="tTot">0</b><span>total</span></div>
-        </div>
-        <div class="meter">
-          <div class="capmark">60% cap ↓</div>
-          <div class="track"><div class="fill" id="sprBar"></div><div class="cap" id="sprCap"></div></div>
-          <div class="meterlegend"><span>springer share</span><b id="sprPct">0%</b></div>
-        </div>
-        <div class="vs" id="vsPlan"></div>
+      <div class="wknav">
+        <button id="prevW" aria-label="Previous week">‹ Prev</button>
+        <button id="todayW">This week</button>
+        <button id="nextW" aria-label="Next week">Next ›</button>
       </div>
+      <div class="days" id="days"></div>
 
-      <div id="days"></div>
-
-      <div class="card">
-        <h2>Import plan</h2>
-        <textarea id="planIn" class="mono" placeholder="Paste the week's plan JSON here"></textarea>
-        <button class="wide" id="importBtn">Import plan</button>
-        <div class="status" id="importStatus"></div>
+      <div class="panel coachonly hide" id="publishWeek">
+        <h2>Publish a week <small>coach</small></h2>
+        <div class="status" id="pubTarget"></div>
+        <textarea id="pubIn" class="mono" placeholder="Paste one week object, or an array of them"></textarea>
+        <button class="ghost wide" id="pubCheck">Validate</button>
+        <div class="status" id="pubStatus"></div>
+        <div id="pubPreview"></div>
       </div>
-    </div>
+    </section>
 
-    <!-- ================= SUNDAY RESET ================= -->
-    <div id="tab-retro" class="hide">
-      <div class="card">
-        <h2>Mileage <small>counted from the week tab</small></h2>
-        <div id="tallyBox"></div>
+    <!-- ═════════ RESET ═════════ -->
+    <section id="tab-reset" class="tab hide">
+      <div class="sky">
+        <div class="when" id="rsWhen">—</div>
+        <h1>Sunday Reset</h1>
       </div>
-      <div class="card">
+      <div class="panel">
+        <h2>The week <small>counted from what you logged</small></h2>
+        <div id="rsTally"></div>
+      </div>
+      <div class="panel">
         <h2>Quick scan — areas <small>0 none · 5 can't run</small></h2>
-        <div id="areaSliders"></div>
-        <label>Somewhere else</label>
-        <input id="otherLabel" placeholder="Name the area">
-        <div id="otherWrap" class="hide" style="margin-top:11px"><div class="boxes" id="otherBoxes"></div></div>
+        <div id="rsAreas"></div>
+        <label for="otherLabel">Somewhere else?</label>
+        <input id="otherLabel" type="text" placeholder="Name the area">
       </div>
-      <div class="card">
+      <div class="panel">
         <h2>Quick scan — days <small>tap the ones that stood out</small></h2>
-        <div class="boxes" id="scanDays"></div>
-        <div id="scanDayDetail"></div>
+        <div class="boxes" id="rsDays"></div>
       </div>
-      <div class="card">
-        <h2>Add detail <small>tier 2 — full entry</small></h2>
-        <div id="t2list"></div>
-        <button class="ghost wide" id="addT2">Add an entry</button>
+      <div class="panel">
+        <h2>Add detail <small>anything worth a full note</small></h2>
+        <div id="rsT2"></div>
+        <button class="ghost wide" id="rsAddT2">Add an entry</button>
       </div>
-      <div class="card">
+      <div class="panel">
         <h2>Stress <small>1 low · 5 high</small></h2>
-        <div class="boxes" id="stressRating"></div>
-        <label>Hardest day(s)</label>
-        <div class="boxes" id="stressDays"></div>
+        <div class="boxes" id="rsStress"></div>
       </div>
-      <div class="card"><h2>Vibe</h2><div class="vibes" id="vibes"></div></div>
-      <div class="card"><h2>Notes</h2><textarea id="notes" placeholder="Anything the numbers miss"></textarea></div>
-    </div>
+      <div class="panel">
+        <h2>Vibe</h2>
+        <div class="boxes" id="rsVibe"></div>
+      </div>
+      <div class="panel">
+        <h2>Notes</h2>
+        <textarea id="rsNotes" placeholder="Anything the numbers miss"></textarea>
+      </div>
+    </section>
 
-    <!-- ================= GOALS ================= -->
-    <div id="tab-goals" class="hide">
-      <div class="card">
+    <!-- ═════════ GOALS ═════════ -->
+    <section id="tab-goals" class="tab hide">
+      <div class="sky"><h1>Goals</h1></div>
+      <div class="panel" id="trophyPanel">
         <h2>Trophy shelf <small>tiers you've hit</small></h2>
         <div id="trophyShelf"></div>
       </div>
-      <div class="card">
+      <div class="panel">
         <h2>Outcome goals</h2>
         <div id="outcomeList"></div>
         <button class="ghost wide" id="addOutcome">Add an outcome goal</button>
       </div>
-      <div class="card">
+      <div class="panel">
         <h2>Process goals <small>every week</small></h2>
         <div id="processList"></div>
         <button class="ghost wide" id="addProcess">Add a process goal</button>
       </div>
-    </div>
-
-    <!-- ================= EXPORT ================= -->
-    <div id="tab-export" class="hide">
-      <div class="card">
-        <h2>Export <small>backup + check-in paste</small></h2>
-        <div class="boxes" id="rangePresets"></div>
-        <div style="display:flex;gap:8px;margin-top:11px">
-          <div style="flex:1"><label>From</label><input type="date" id="expFrom"></div>
-          <div style="flex:1"><label>To</label><input type="date" id="expTo"></div>
+      <div class="panel">
+        <h2>Races</h2>
+        <div id="raceList"></div>
+        <button class="ghost wide" id="addRace">Add a race</button>
+      </div>
+      <div class="panel">
+        <h2>Export <small>backup and check-in paste</small></h2>
+        <div style="display:flex;gap:10px">
+          <div class="grow"><label for="expFrom">From</label><input type="date" id="expFrom"></div>
+          <div class="grow"><label for="expTo">To</label><input type="date" id="expTo"></div>
         </div>
-        <button class="wide" id="buildExport">Build export</button>
+        <button class="solid wide" id="buildExport">Build export</button>
         <div class="status" id="expStatus"></div>
+        <textarea id="expOut" class="mono hide" readonly></textarea>
       </div>
-      <div class="card hide" id="expOutCard">
-        <h2>Digest <small id="expMeta"></small></h2>
-        <textarea id="expOut" class="mono" readonly style="min-height:220px"></textarea>
-        <div style="display:flex;gap:8px;margin-top:11px">
-          <button style="flex:1" id="copyExport">Copy</button>
-          <button class="ghost" style="flex:1" id="dlExport">Save file</button>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <button class="ghost wide" id="outBtn">Sign out</button>
-  </div>
+    <!-- ═════════ LIFT ═════════ -->
+    <section id="tab-lift" class="tab hide">
+      <div class="sky">
+        <div class="when" id="liftWhen">—</div>
+        <h1 id="liftLabel">Lift</h1>
+      </div>
+      <div class="cyc" id="liftCyc"></div>
+      <div class="wkpick" id="liftWeeks"></div>
+      <div style="padding:0 14px" id="liftBody"></div>
+
+      <div class="panel coachonly hide" id="publishLift">
+        <h2>Publish a lift cycle <small>coach</small></h2>
+        <div class="status" id="lpubTarget"></div>
+        <textarea id="lpubIn" class="mono" placeholder="Paste one cycle object"></textarea>
+        <button class="ghost wide" id="lpubCheck">Validate</button>
+        <div class="status" id="lpubStatus"></div>
+        <div id="lpubPreview"></div>
+      </div>
+    </section>
+
+    <!-- ═════════ CAL ═════════ -->
+    <section id="tab-cal" class="tab hide">
+      <div class="sky">
+        <div class="when" id="calWhen">Last 12 weeks</div>
+        <h1>Calendar</h1>
+      </div>
+      <div class="panel">
+        <div class="calgrid">
+          <div class="calhead" aria-hidden="true">
+            <div class="caldays">
+              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span>
+              <span>Fri</span><span>Sat</span><span>Sun</span>
+            </div>
+          </div>
+          <div id="calWeeks"></div>
+        </div>
+        <div class="legend" id="calLegend"></div>
+      </div>
+    </section>
+
+  </main>
 </div>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="home">Home</button>
+  <button data-tab="week">Week</button>
+  <button data-tab="reset">Reset</button>
+  <button data-tab="goals">Goals</button>
+  <button data-tab="lift">Lift</button>
+  <button data-tab="cal">Cal</button>
+</nav>
+
+<div id="banner" class="banner hide"><span id="bannerText"></span><button id="bannerBtn">Retry</button></div>
+<div id="dlgHost"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="config.js"></script>
 <script>
-const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY, {auth:{persistSession:true,autoRefreshToken:true}});
-const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const DAYSHORT=['M','Tu','W','Th','F','Sa','Su'];
-const AREAS=[['shin','Shin'],['kneeInner','Lower / inside knee'],['kneeGeneral','General knee'],
-  ['thigh','Thigh muscle'],['hipFlexor','Hip flexor'],['gluteItb','Glute / IT band']];
-const SCAN_WORDS=['none','aware of it','noticeable','concerning','changing my stride',"can't run"];
-const DAY_STATUS=['Flare-up',"I'm cooked",'Semi-recovered','Back to normal'];
-const T2_SEV=['recent ache','bothering me','impacting form/gait','stopping proactive running','cannot run','cannot walk'];
-const VIBES=['Rough','Flat','OK','Solid','Strong','Fired up'];
-const TIERS=[['safe','Safe'],['solid','Solid'],['reach','Reach']];
-const INTENT_MARK={quality:'◆',build:'↗',maintain:'→',shakeout:'~',dip:'↘'};
-const GLYPH={
- run:'<svg class="g run" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.6 11.3h4.2l2.3-1.7 2.4 1.2 3 .7c.6.15.9.5.9 1.1v.5H1.6z"/><rect x="1.6" y="13.6" width="12.8" height="1" opacity=".5"/></svg>',
- xt:'<svg class="g" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M1.6 6.3c1.1-1.3 2.2-1.3 3.3 0s2.2 1.3 3.3 0 2.2-1.3 3.3 0 2 1.2 2.9.2"/><path d="M1.6 10.6c1.1-1.3 2.2-1.3 3.3 0s2.2 1.3 3.3 0 2.2-1.3 3.3 0 2 1.2 2.9.2"/></svg>'
-};
-const EDGE={'Run':'#8A6A62','XT':'#3E5266','Run+XT':'#5E5C5E'};
+/* ════════════════════════════════════════════════════════════════════════════
+   Training Hub V2
+   Load order is fixed: library → config.js → this file.
+   No project URL or key appears in this file and none ever may.
+   ════════════════════════════════════════════════════════════════════════════ */
+const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY,
+  {auth:{persistSession:true, autoRefreshToken:true}});
 
-const $=id=>document.getElementById(id);
-const say=(el,msg,cls='')=>{el.className='status '+cls;el.textContent=msg;};
-const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* ── helpers ──────────────────────────────────────────────────────────────── */
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num = v => { const n = parseFloat(v); return Number.isFinite(n) ? n : null; };
+const r1 = n => Math.round(n*10)/10;
+const f1 = n => (Math.round(n*10)/10).toFixed(1).replace(/\.0$/,'');
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DAY_MS = 86400000;
 
-const fmt=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-function isoMonday(x){
-  const d=(typeof x==='string')?new Date(x+'T00:00:00'):new Date(x);
-  d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return fmt(d);
-}
-const addDays=(iso,n)=>{const d=new Date(iso+'T00:00:00');d.setDate(d.getDate()+n);return fmt(d);};
-const pretty=iso=>new Date(iso+'T00:00:00').toLocaleDateString(undefined,{month:'short',day:'numeric'});
-const prettyY=iso=>new Date(iso+'T00:00:00').toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'});
-const mdy=iso=>{const d=new Date(iso+'T00:00:00');return (d.getMonth()+1)+'/'+d.getDate();};
-const daysOut=iso=>Math.round((new Date(iso+'T00:00:00')-new Date().setHours(0,0,0,0))/864e5);
+const toIso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const parseIso = s => new Date(s+'T00:00:00');
+const addDays = (iso,n) => toIso(new Date(parseIso(iso).getTime()+n*DAY_MS));
+function mondayOf(d){ const x=new Date(d); x.setDate(x.getDate()-((x.getDay()+6)%7)); return toIso(x); }
+const todayIso = () => toIso(new Date());
+const isIso = s => typeof s==='string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(parseIso(s));
+const fmtShort = iso => parseIso(iso).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+const fmtLong  = iso => parseIso(iso).toLocaleDateString('en-US',{weekday:'long',day:'numeric',month:'short'});
+const daysUntil = iso => Math.round((parseIso(iso)-parseIso(todayIso()))/DAY_MS);
 
-const num=v=>(v===null||v===undefined||v==='')?null:(isNaN(Number(v))?null:Number(v));
-const f1=n=>Number.isInteger(n)?String(n):String(Math.round(n*10)/10);
-const r1=n=>Math.round(n*10)/10;
-function rng(lo,hi){
-  const a=num(lo),b=num(hi);
-  if(a===null&&b===null)return '—';
-  if(a===null)return f1(b);
-  if(b===null||a===b)return f1(a);
-  return f1(a)+'–'+f1(b);
-}
-const sum=(arr,k)=>arr.reduce((t,o)=>t+(num(o&&o[k])||0),0);
-const sprColor=p=>p>=60?'var(--cardinal)':p>=52?'var(--amber)':'var(--go)';
-const sevVar=v=>'var(--sev'+Math.max(0,Math.min(5,v|0))+')';
-
-/* rolling numbers */
-const REDUCED=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-function setNum(el,val,dec,suffix,animate){
-  suffix=suffix||'';
-  const from=parseFloat(el.dataset.v||'0');
-  el.dataset.v=val;
-  if(!animate||REDUCED||Math.abs(val-from)<0.05){
-    el.textContent=(dec?f1(r1(val)):Math.round(val))+suffix;return;
-  }
-  const t0=performance.now(),dur=420;
-  (function step(t){
-    const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);
-    const v=from+(val-from)*e;
-    el.textContent=(dec?f1(r1(v)):Math.round(v))+suffix;
-    if(k<1)requestAnimationFrame(step);
-  })(t0);
-}
-
-let state={weekOf:isoMonday(new Date()),row:null,tab:'home'};
-let cache={meets:null,outcome:null,process:null,pgWeeks:null};
-let saveTimer=null,lastSaveFailed=false,lastOverCap=false;
-const draftKey=w=>'th:draft:'+w;
-
-function blankScan(){const a={};AREAS.forEach(([k])=>a[k]=0);
-  a.other={present:false,label:'',rating:null};return {areas:a,days:{}};}
-function blankRow(w){
-  return {week_of:w,week_label:'',race_week:false,weekly_low:null,weekly_high:null,
-    plan_days:[],actual_days:DAYS.map(d=>({day:d,miles:0,xmin:0})),
-    quick_scan:blankScan(),tier2_entries:[],stress:{weekRating:null,stressfulDays:[]},
-    vibe:'',notes:'',retro_saved_at:null};
-}
-function normalizeActual(a){
-  const src=Array.isArray(a)?a:[];
-  return DAYS.map((d,i)=>{const h=src.find(o=>o&&o.day===d)||src[i]||{};
-    return {day:d,miles:num(h.miles)||0,xmin:num(h.xmin)||0};});
-}
-function normalizeScan(q){
-  const b=blankScan();
-  if(!q||typeof q!=='object')return b;
-  const areas=q.areas||{};
-  AREAS.forEach(([k])=>{b.areas[k]=num(areas[k])||0;});
-  if(areas.other)b.areas.other={present:!!areas.other.present,label:areas.other.label||'',rating:num(areas.other.rating)};
-  b.days=(q.days&&typeof q.days==='object')?q.days:{};
-  return b;
-}
-function normalizeRow(d){
-  return {...d,actual_days:normalizeActual(d.actual_days),quick_scan:normalizeScan(d.quick_scan),
-    tier2_entries:Array.isArray(d.tier2_entries)?d.tier2_entries:[],
-    stress:(d.stress&&typeof d.stress==='object')
-      ?{weekRating:num(d.stress.weekRating),stressfulDays:Array.isArray(d.stress.stressfulDays)?d.stress.stressfulDays:[]}
-      :{weekRating:null,stressfulDays:[]},
-    vibe:d.vibe||'',notes:d.notes||''};
-}
-function weekTotals(r){
-  const miles=sum(r.actual_days,'miles'),xmin=sum(r.actual_days,'xmin');
-  const spr=xmin/12,total=miles+spr,pct=total>0?spr/total*100:0;
-  return {miles:r1(miles),xmin:Math.round(xmin),springer:r1(spr),total:r1(total),springerPct:Math.round(pct)};
-}
-
-function banner(msg,kind,btnLabel,onClick){
+function banner(msg,kind,onRetry){
   const b=$('banner');
-  b.className='banner'+(kind==='ok'?' ok':'');
   $('bannerText').textContent=msg;
-  const btn=$('bannerBtn');
-  if(btnLabel){btn.classList.remove('hide');btn.textContent=btnLabel;btn.onclick=onClick;}
-  else btn.classList.add('hide');
+  b.className='banner';
+  $('bannerBtn').classList.toggle('hide',!onRetry);
+  $('bannerBtn').onclick=()=>{ b.classList.add('hide'); onRetry&&onRetry(); };
   b.classList.remove('hide');
+  if(!onRetry) setTimeout(()=>b.classList.add('hide'),4000);
 }
-const clearBanner=()=>$('banner').classList.add('hide');
+const fail = (what,error) => banner(what+' — '+((error&&error.message)||'unknown error'),'err');
 
-/* ---------------- auth ---------------- */
-async function boot(){
-  const {data:{session}}=await sb.auth.getSession();
-  if(!session){$('loginCard').classList.remove('hide');return;}
-  $('app').classList.remove('hide');
-  buildStaticRetro();buildExportUI();moveInk();
-  await loadWeek();
-  loadHome();
+/* ── dialog. There is no prompt() anywhere in this app. ───────────────────── */
+function openForm(opts){
+  const {title, subtitle, fields, onSave, saveLabel='Save', danger} = opts;
+  const host=$('dlgHost');
+  const body = fields.map(f => {
+    const id='dlgf-'+f.key;
+    if(f.type==='textarea')
+      return `<label for="${id}">${esc(f.label)}</label>
+              <textarea id="${id}" data-k="${f.key}">${esc(f.value||'')}</textarea>`;
+    if(f.type==='select')
+      return `<label for="${id}">${esc(f.label)}</label>
+              <select class="sel" style="width:100%;margin-top:4px" id="${id}" data-k="${f.key}">${
+        f.options.map(o=>`<option value="${esc(o)}"${o===f.value?' selected':''}>${esc(o)}</option>`).join('')
+      }</select>`;
+    return `<label for="${id}">${esc(f.label)}</label>
+            <input id="${id}" data-k="${f.key}" type="${f.type||'text'}"
+              value="${esc(f.value==null?'':f.value)}"
+              placeholder="${esc(f.placeholder||'')}">`;
+  }).join('');
+  host.innerHTML = `<div class="scrim" id="scrim" role="dialog" aria-modal="true"
+       aria-label="${esc(title)}"><div class="dlg">
+      <h2>${esc(title)}</h2>
+      ${subtitle?`<div class="who">${esc(subtitle)}</div>`:''}
+      ${body}
+      <div class="dlgbtns">
+        <button class="no" id="dlgNo">Cancel</button>
+        <button class="go" id="dlgYes">${esc(saveLabel)}</button>
+      </div></div></div>`;
+  const close = () => { host.innerHTML=''; };
+  $('dlgNo').onclick = close;
+  $('scrim').addEventListener('click', e => { if(e.target.id==='scrim') close(); });
+  document.addEventListener('keydown', function onEsc(e){
+    if(e.key==='Escape'){ close(); document.removeEventListener('keydown',onEsc); }
+  });
+  $('dlgYes').onclick = async () => {
+    const values={};
+    host.querySelectorAll('[data-k]').forEach(el => values[el.dataset.k]=el.value);
+    close();
+    await onSave(values);
+  };
+  if(danger) $('dlgYes').style.background='var(--race)';
+  const first = host.querySelector('input,textarea,select');
+  if(first) first.focus();
 }
-$('loginBtn').onclick=async()=>{
-  say($('loginStatus'),'Signing in…');
-  const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('pw').value});
-  if(error)return say($('loginStatus'),'Sign-in failed — '+error.message,'err');
+function confirmDialog(title, subtitle, onYes, label){
+  openForm({title, subtitle, fields:[], saveLabel:label||'Delete', danger:true, onSave:onYes});
+}
+
+/* ── constants ────────────────────────────────────────────────────────────────
+   V1 hardcoded one athlete's injury history as the scan list. That is a personal
+   constant and it does not travel. Neutral anatomical screen, overridden by
+   athlete_config.scan_areas when a real per-athlete list exists.               */
+const DEFAULT_AREAS = [
+  ['foot','Foot'],['ankle','Ankle'],['shinCalf','Shin / calf'],['knee','Knee'],
+  ['quad','Quad'],['hamstring','Hamstring'],['hip','Hip'],['glute','Glute'],['lowBack','Low back']
+];
+const SCAN_WORDS = ['none','aware of it','noticeable','concerning','changing my stride',"can't run"];
+const VIBES = ['Rough','Flat','OK','Solid','Strong','Fired up'];
+const PATTERNS = ['squat','hinge','push','pull','carry','core'];
+const DAY_TYPES = ['easy','workout','long','race','off'];
+
+/* ── state ────────────────────────────────────────────────────────────────── */
+const state = {
+  me:null, viewing:null, athletes:[], cfg:{}, areas:DEFAULT_AREAS,
+  tab:'week', weekStart:mondayOf(new Date()),
+  week:null, sessions:[], reset:null, races:[], goals:[],
+  cycles:[], cycIdx:0, cycWeek:1, liftOpenDay:null,
+  calSessions:[], openDay:null, pending:null, pendingLift:null
+};
+const isCoach = () => state.me && state.me.role==='coach';
+const viewingName = () => {
+  const a = state.athletes.find(x=>x.id===state.viewing);
+  return (a && a.display_name) || (state.me && state.me.display_name) || 'this athlete';
+};
+/* athlete_config.xt_divisor. null means minutes stay minutes and totals are run
+   miles only. No default, and it may never acquire one. */
+const xtDivisor = () => (state.cfg && state.cfg.xt_divisor!=null) ? Number(state.cfg.xt_divisor) : null;
+
+/* ── auth ─────────────────────────────────────────────────────────────────── */
+async function boot(){
+  const {data:{session}} = await sb.auth.getSession();
+  if(!session){ $('loginCard').classList.remove('hide'); return; }
+  $('loginCard').classList.add('hide');
+  $('app').classList.remove('hide');
+  await loadAthlete();
+}
+$('loginBtn').onclick = async () => {
+  $('loginStatus').className='status';
+  $('loginStatus').textContent='Signing in…';
+  const {error} = await sb.auth.signInWithPassword({
+    email:$('email').value.trim(), password:$('pw').value});
+  if(error){ $('loginStatus').className='status err'; $('loginStatus').textContent=error.message; return; }
   location.reload();
 };
-$('outBtn').onclick=async()=>{await sb.auth.signOut();location.reload();};
+$('pw').addEventListener('keydown', e => { if(e.key==='Enter') $('loginBtn').click(); });
 
-/* ---------------- tabs ---------------- */
-const TITLES={home:'Home',week:'Week Running',retro:'Sunday Reset',
-  goals:'Goals',export:'Export'};
-function moveInk(){
-  const on=document.querySelector('.tabs button.on');
-  if(!on)return;
-  $('tabink').style.width=on.offsetWidth+'px';
-  $('tabink').style.left=on.offsetLeft+'px';
+async function loadAthlete(){
+  const {data:{user}} = await sb.auth.getUser();
+  const {data,error} = await sb.from('athletes').select('*').eq('id',user.id).maybeSingle();
+  if(error) return fail('Could not load your profile',error);
+  if(!data) return banner('Signed in, but there is no athlete row for this account yet.','err');
+  state.me = data;
+  state.viewing = data.id;
+
+  if(isCoach()){
+    const {data:list} = await sb.from('athletes').select('id,display_name,role').order('display_name');
+    state.athletes = list || [];
+    $('coachSwitch').classList.remove('hide');
+    $('publishWeek').classList.remove('hide');
+    $('publishLift').classList.remove('hide');
+  } else {
+    state.athletes = [data];
+  }
+  await loadConfig();
+  setTab(isCoach() ? 'home' : 'week');
+  await Promise.all([loadWeek(), loadRaces()]);
 }
-window.addEventListener('resize',moveInk);
-document.querySelectorAll('.tabs button').forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
-    moveInk();
-    state.tab=b.dataset.tab;
-    ['home','week','retro','goals','export'].forEach(t=>
-      $('tab-'+t).classList.toggle('hide',t!==state.tab));
-    $('viewTitle').textContent=TITLES[state.tab];
-    $('eyebrow').textContent=TITLES[state.tab];
-    $('wknav').classList.toggle('hide',!(state.tab==='week'||state.tab==='retro'));
-    $('todayBtn').classList.toggle('hide',
-      !(state.tab==='week'||state.tab==='retro')||state.weekOf===isoMonday(new Date()));
-    if(state.tab==='retro')renderTally();
-    if(state.tab==='home')loadHome();
-    if(state.tab==='goals')loadGoals();
-    window.scrollTo({top:0});
-  };
-});
+async function loadConfig(){
+  const {data} = await sb.from('athlete_config').select('*')
+    .eq('athlete_id',state.viewing).maybeSingle();
+  state.cfg = data || {};
+  state.areas = (Array.isArray(state.cfg.scan_areas) && state.cfg.scan_areas.length)
+    ? state.cfg.scan_areas.map(a => Array.isArray(a) ? a : [a.key,a.label])
+    : DEFAULT_AREAS;
+}
+async function setViewing(id){
+  state.viewing = id;
+  state.goals=[]; state.cycles=[]; state.calSessions=[];
+  await loadConfig();
+  await Promise.all([loadWeek(), loadRaces()]);
+  renderHome();
+  banner('Now viewing '+viewingName());
+}
 
-/* ---------------- week load / save ---------------- */
+/* ── tabs ─────────────────────────────────────────────────────────────────── */
+function setTab(t){
+  state.tab=t;
+  ['home','week','reset','goals','lift','cal'].forEach(k =>
+    $('tab-'+k).classList.toggle('hide',k!==t));
+  document.querySelectorAll('#tabs button').forEach(b =>
+    b.classList.toggle('on',b.dataset.tab===t));
+  if(t==='home')  renderHome();
+  if(t==='reset') renderReset();
+  if(t==='goals') loadGoals();
+  if(t==='lift')  loadLift();
+  if(t==='cal')   loadCal();
+  window.scrollTo({top:0});
+}
+document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => setTab(b.dataset.tab));
+
+/* ── week ─────────────────────────────────────────────────────────────────── */
 async function loadWeek(){
-  clearBanner();
-  $('save').textContent='loading';$('save').className='savestate';
-  const {data,error}=await sb.from('weeks').select('*').eq('week_of',state.weekOf).maybeSingle();
-  if(error){
-    $('save').textContent='offline';$('save').className='savestate err';
-    banner("Couldn't reach the database. Check your connection, then reload.",'err','Reload',()=>location.reload());
-    console.error(error);return;
-  }
-  state.row=data?normalizeRow(data):blankRow(state.weekOf);
-  const draft=localStorage.getItem(draftKey(state.weekOf));
-  if(draft){
-    try{
-      state.row=normalizeRow({...state.row,...JSON.parse(draft)});
-      render();
-      banner('Changes that never saved were restored. Saving them now…','ok');
-      await saveNow();
-      if(!lastSaveFailed)banner('Restored changes are saved.','ok');
-      loadReminders();return;
-    }catch(e){localStorage.removeItem(draftKey(state.weekOf));}
-  }
-  $('save').textContent=data?'saved':'new week';
-  $('save').className='savestate'+(data?' on':'');
-  render();loadReminders();
+  const ws=state.weekStart, we=addDays(ws,6);
+  const [wk,ss,rs] = await Promise.all([
+    sb.from('weeks').select('*').eq('athlete_id',state.viewing).eq('week_start',ws).maybeSingle(),
+    sb.from('sessions').select('*').eq('athlete_id',state.viewing)
+      .gte('date',ws).lte('date',we).order('date'),
+    sb.from('resets').select('*').eq('athlete_id',state.viewing).eq('week_start',ws).maybeSingle()
+  ]);
+  if(wk.error) return fail('Could not load the plan',wk.error);
+  if(ss.error) return fail('Could not load the sessions',ss.error);
+  state.week=wk.data||null; state.sessions=ss.data||[]; state.reset=rs.data||null;
+  state.openDay=defaultOpenDay();
+  renderWeek();
+  if(state.tab==='reset') renderReset();
+  if(state.tab==='home')  renderHome();
 }
-function buildPayload(){
-  const r=state.row;
-  return {week_of:r.week_of,week_label:r.week_label||'',race_week:!!r.race_week,
-    weekly_low:r.weekly_low,weekly_high:r.weekly_high,plan_days:r.plan_days||[],
-    actual_days:r.actual_days,quick_scan:r.quick_scan,tier2_entries:r.tier2_entries,
-    stress:r.stress,vibe:r.vibe||'',notes:r.notes||'',retro_saved_at:r.retro_saved_at||null};
+function defaultOpenDay(){
+  const t=todayIso();
+  return (t>=state.weekStart && t<=addDays(state.weekStart,6)) ? t : state.weekStart;
 }
-function queueSave(isRetro){
-  if(isRetro)state.row.retro_saved_at=new Date().toISOString();
-  try{localStorage.setItem(draftKey(state.row.week_of),JSON.stringify(buildPayload()));}catch(e){}
-  $('save').textContent='saving';$('save').className='savestate';
-  clearTimeout(saveTimer);saveTimer=setTimeout(saveNow,700);
-  paintRetroDot();
+$('prevW').onclick  = () => { state.weekStart=addDays(state.weekStart,-7); loadWeek(); };
+$('nextW').onclick  = () => { state.weekStart=addDays(state.weekStart, 7); loadWeek(); };
+$('todayW').onclick = () => { state.weekStart=mondayOf(new Date()); loadWeek(); };
+
+function planFor(iso){
+  const plan=(state.week && Array.isArray(state.week.plan_days))?state.week.plan_days:[];
+  const i=Math.round((parseIso(iso)-parseIso(state.weekStart))/DAY_MS);
+  return plan.find(p=>p&&p.date===iso) || plan.find(p=>p&&p.day===DAYS[i]) || null;
 }
-async function saveNow(){
-  const payload=buildPayload();
-  const {error}=await sb.from('weeks').upsert(payload,{onConflict:'user_id,week_of'});
-  if(error){
-    lastSaveFailed=true;
-    $('save').textContent='not saved';$('save').className='savestate err';
-    banner("This week didn't save: "+error.message+" Your entries are held on this phone until it does.",
-      'err','Try again',()=>{clearBanner();saveNow();});
-    console.error(error);return;
+const sessionsOn = iso => state.sessions.filter(s=>s.date===iso);
+function dayType(p){
+  const t=(p&&p.type?String(p.type):'').toLowerCase();
+  return DAY_TYPES.includes(t)?t:(p?'easy':'off');
+}
+const headlineFor = (p,type) => (p&&p.headline) ? p.headline :
+  ({easy:'Easy',workout:'Workout',long:'Long run',race:'Race',off:'Off'})[type];
+function targetText(p){
+  if(!p) return '';
+  const lo=num(p.target_low), hi=num(p.target_high);
+  if(lo==null&&hi==null) return '';
+  if(lo==null||hi==null||lo===hi) return f1(lo==null?hi:lo)+' mi';
+  return f1(lo)+'–'+f1(hi)+' mi';
+}
+function weekTotals(list){
+  const src=list||state.sessions;
+  let miles=0,xmin=0,runs=0,lifts=0,crosses=0;
+  src.forEach(s=>{
+    if(s.category==='run'){ miles+=num(s.distance_mi)||0; runs++; }
+    if(s.category==='cross'){ xmin+=num(s.duration_min)||0; crosses++; }
+    if(s.category==='lift') lifts++;
+  });
+  const d=xtDivisor();
+  return {miles:r1(miles),xmin:Math.round(xmin),runs,lifts,crosses,
+    equiv: d ? r1(miles+xmin/d) : null};
+}
+function renderWeek(){
+  const ws=state.weekStart;
+  $('wkWhen').textContent='Week of '+fmtShort(ws)+(isCoach()?' · '+viewingName():'');
+  $('wkLabel').textContent=(state.week&&state.week.label)||'Week';
+  const t=weekTotals();
+  const bits=[
+    `<div class="stat"><b>${t.equiv!=null?f1(t.equiv):f1(t.miles)}</b><span>${t.equiv!=null?'mi':'run mi'}</span></div>`,
+    `<div class="stat"><b>${t.runs}</b><span>${t.runs===1?'run':'runs'}</span></div>`];
+  if(t.crosses) bits.push(`<div class="stat"><b>${t.xmin}</b><span>xt min</span></div>`);
+  if(t.lifts)   bits.push(`<div class="stat"><b>${t.lifts}</b><span>${t.lifts===1?'lift':'lifts'}</span></div>`);
+  if(state.week && state.week.published_at)
+    bits.push(`<div class="pub">published<br>${fmtShort(String(state.week.published_at).slice(0,10))}</div>`);
+  $('wkStats').innerHTML=bits.join('');
+
+  const today=todayIso(), rows=[];
+  for(let i=0;i<7;i++){
+    const iso=addDays(ws,i), p=planFor(iso), type=dayType(p);
+    rows.push(iso===state.openDay ? cardHTML(iso,p,type,today) : lineHTML(iso,i,p,type,today));
   }
-  lastSaveFailed=false;
-  localStorage.removeItem(draftKey(payload.week_of));
-  $('save').textContent='saved';$('save').className='savestate on';
+  if(!state.week) rows.unshift(`<div class="empty" style="padding:10px 12px 14px">
+    No plan published for this week yet. You can still log what you did.</div>`);
+  $('days').innerHTML=rows.join('');
+  wireDays();
+  if(isCoach()) $('pubTarget').innerHTML='Publishing to <b>'+esc(viewingName())+'</b>';
+}
+function lineHTML(iso,i,p,type,today){
+  const future=iso>today, past=iso<today, ss=sessionsOn(iso);
+  let val='', miss=false, when=false;
+  if(ss.length){
+    const mi=ss.reduce((a,s)=>a+(s.category==='run'?(num(s.distance_mi)||0):0),0);
+    const mn=ss.reduce((a,s)=>a+(s.category!=='run'?(num(s.duration_min)||0):0),0);
+    val=(mi?f1(mi)+' mi':(mn?mn+' min':'logged'))+' <span class="done">✓</span>';
+  } else if(past && type!=='off'){ val='not logged'; miss=true; }
+  else if(type==='race' && p && p.start_time){ val='at '+esc(p.start_time); when=true; }
+  else if(future||iso===today){ val=esc(targetText(p)); }
+  return `<button class="line ${type}${future?' future':''}${miss?' miss':''}" data-day="${iso}">
+    <span class="d">${DAYS[i]} ${parseIso(iso).getDate()}</span>
+    <span class="what">${esc(headlineFor(p,type))}</span>
+    <span class="val${when?' when':''}">${val}</span></button>`;
+}
+function cardHTML(iso,p,type,today){
+  const target=targetText(p);
+  const start=(type==='race'&&p&&p.start_time)?'at '+esc(p.start_time):'';
+  const ss=sessionsOn(iso);
+  return `<div class="card ${type}" data-card="${iso}">
+    <div class="card-top">
+      <div class="card-when"><b>${fmtLong(iso)}</b>${
+        iso===today?'<span class="tag-today">today</span>':''}</div>
+      <div class="plan-h"><b>${esc(headlineFor(p,type))}</b>
+        <span class="target">${target||start}</span></div>
+      ${p&&p.detail?`<div class="plan-detail">${esc(p.detail)}</div>`:''}
+      ${p&&p.coach?`<div class="coach">${esc(p.coach)}</div>`:''}
+    </div>
+    <div class="log">
+      ${ss.length?ss.map(sessHTML).join('')
+        :'<div class="empty" style="padding:4px 0 8px">Nothing logged yet.</div>'}
+      <div class="adds">
+        <button data-add="${iso}">+ session</button>
+        <button data-note="${iso}">+ note</button>
+      </div></div></div>`;
+}
+/* One select carries category AND workout type. They are one question. */
+const TYPE_OPTIONS=[['run|easy','easy run'],['run|workout','workout'],['run|long','long run'],
+  ['run|race','race'],['cross|','cross-training'],['lift|','lift']];
+function sessHTML(s){
+  const key = s.category==='run' ? 'run|'+(s.workout_type||'easy') : s.category+'|';
+  const opts = TYPE_OPTIONS.map(([v,l]) =>
+    `<option value="${v}"${v===key?' selected':''}>${l}</option>`).join('');
+  const dist = s.category==='run'
+    ? `<div class="fld"><input value="${s.distance_mi==null?'':s.distance_mi}" inputmode="decimal"
+        data-f="distance_mi" data-id="${s.id}" aria-label="Distance in miles"><u>mi</u></div>` : '';
+  return `<div class="sess" data-sess="${s.id}">${dist}
+    <div class="fld time"><input value="${s.duration_min==null?'':s.duration_min}" inputmode="numeric"
+      data-f="duration_min" data-id="${s.id}" aria-label="Duration in minutes"><u>min</u></div>
+    <select class="sel" data-f="kind" data-id="${s.id}" aria-label="Session type">${opts}</select>
+    ${feltHTML(s)}
+    <button class="rm" data-del="${s.id}" aria-label="Delete this session">×</button>
+    ${s.notes!=null?`<input class="snote" value="${esc(s.notes)}" data-f="notes"
+      data-id="${s.id}" placeholder="Note" aria-label="Session note">`:''}</div>`;
+}
+function feltHTML(s){
+  const v = s.felt==null?0:Number(s.felt);
+  const dots=[1,2,3,4,5].map(n =>
+    `<button type="button" class="fdot${n<=v?' on':''}" role="radio"
+      aria-checked="${n===v}" tabindex="${n===v||(v===0&&n===1)?0:-1}"
+      aria-label="${n} of 5" data-felt="${s.id}" data-v="${n}"></button>`).join('');
+  return `<div class="felt" role="radiogroup" aria-label="How it felt"
+    aria-describedby="fh-${s.id}"><span class="lab" aria-hidden="true">felt</span>${dots}
+    <span class="sr" id="fh-${s.id}">Optional. Choose the same value again to clear it.</span></div>`;
+}
+function wireDays(){
+  document.querySelectorAll('#days .line').forEach(b =>
+    b.onclick=()=>{ state.openDay=b.dataset.day; renderWeek(); });
+  document.querySelectorAll('#days [data-add]').forEach(b => b.onclick=()=>addSession(b.dataset.add));
+  document.querySelectorAll('#days [data-note]').forEach(b => b.onclick=()=>addNote(b.dataset.note));
+  document.querySelectorAll('#days [data-del]').forEach(b => b.onclick=()=>delSession(b.dataset.del));
+  document.querySelectorAll('#days [data-f]').forEach(el => {
+    const commit=()=>fieldChanged(el);
+    el.addEventListener('change',commit);
+    if(el.tagName==='INPUT') el.addEventListener('blur',commit);
+  });
+  document.querySelectorAll('#days .felt').forEach(wireFelt);
+}
+function wireFelt(group){
+  const dots=[...group.querySelectorAll('.fdot')];
+  const id=dots[0]&&dots[0].dataset.felt;
+  const current=()=>dots.findIndex(d=>d.getAttribute('aria-checked')==='true')+1;
+  function paint(v){
+    dots.forEach((d,i)=>{
+      const checked=(i+1)===v;
+      d.classList.toggle('on',i<v);
+      d.setAttribute('aria-checked',String(checked));
+      d.tabIndex = checked||(v===0&&i===0)?0:-1;
+    });
+  }
+  function set(v,focus){
+    const next=(v===current())?0:v;
+    paint(next);
+    saveSession(id,{felt:next===0?null:next});
+    if(focus) dots[(next||1)-1].focus();
+  }
+  dots.forEach((d,i)=>d.onclick=()=>set(i+1,false));
+  group.addEventListener('keydown',e=>{
+    const i=dots.indexOf(document.activeElement);
+    if(i<0) return;
+    const step={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}[e.key];
+    if(step){ e.preventDefault();
+      const n=Math.min(5,Math.max(1,i+1+step));
+      paint(n); saveSession(id,{felt:n}); dots[n-1].focus();
+    } else if(e.key===' '||e.key==='Enter'){ e.preventDefault(); set(i+1,true); }
+    else if(e.key==='Home'||e.key==='End'){ e.preventDefault();
+      const n=e.key==='Home'?1:5; paint(n); saveSession(id,{felt:n}); dots[n-1].focus(); }
+  });
+}
+function fieldChanged(el){
+  const id=el.dataset.id, f=el.dataset.f;
+  if(f==='kind'){
+    const [category,wt]=el.value.split('|');
+    const patch={category,workout_type:wt||null};
+    if(category!=='run') patch.distance_mi=null;
+    return saveSession(id,patch,true);
+  }
+  const v=(f==='notes')?el.value:num(el.value);
+  saveSession(id,{[f]:(f==='duration_min'&&v!=null)?Math.round(v):v});
+  renderWeekStatsOnly();
+}
+function renderWeekStatsOnly(){
+  const t=weekTotals(), first=$('wkStats').querySelector('.stat b');
+  if(first) first.textContent = t.equiv!=null?f1(t.equiv):f1(t.miles);
+}
+async function addSession(iso){
+  const {data,error}=await sb.from('sessions')
+    .insert({athlete_id:state.viewing,date:iso,category:'run',workout_type:'easy'})
+    .select().single();
+  if(error) return fail('Could not add that session',error);
+  state.sessions.push(data); renderWeek();
+}
+async function addNote(iso){
+  const ss=sessionsOn(iso);
+  if(!ss.length) return banner('Add a session first — a note attaches to one.');
+  const target=ss.find(s=>s.notes==null)||ss[0];
+  if(target.notes==null){ target.notes=''; saveSession(target.id,{notes:''}); renderWeek(); }
+  const el=document.querySelector('.snote[data-id="'+target.id+'"]');
+  if(el) el.focus();
+}
+function delSession(id){
+  confirmDialog('Delete this session?','It cannot be undone.', async () => {
+    const {error}=await sb.from('sessions').delete().eq('id',id);
+    if(error) return fail('Could not delete that session',error);
+    state.sessions=state.sessions.filter(x=>x.id!==id);
+    renderWeek();
+  });
+}
+const saveTimers={};
+function saveSession(id,patch,rerender){
+  const s=state.sessions.find(x=>x.id===id);
+  if(s) Object.assign(s,patch);
+  clearTimeout(saveTimers[id]);
+  saveTimers[id]=setTimeout(async () => {
+    const {error}=await sb.from('sessions').update(patch).eq('id',id);
+    if(error) fail('That change did not save',error);
+    else if(rerender) renderWeek();
+  },450);
 }
 
-/* ---------------- totals ---------------- */
-function calc(){return weekTotals(state.row);}
-function paintTotals(animate){
-  const r=state.row,plan=Array.isArray(r.plan_days)?r.plan_days:[],c=calc();
-  setNum($('tRun'),c.miles,true,'',animate);
-  setNum($('tX'),c.xmin,false,'',animate);
-  setNum($('tSpr'),c.springer,true,'',animate);
-  setNum($('tTot'),c.total,true,'',animate);
-  setNum($('sprPct'),c.springerPct,false,'%',animate);
-  $('sprBar').style.clipPath='inset(0 '+(100-Math.min(100,c.springerPct))+'% 0 0)';
-  $('sprPct').style.color=sprColor(c.springerPct);
-  const over=c.springerPct>=60;
-  if(over&&!lastOverCap&&!REDUCED){
-    const cap=$('sprCap');cap.classList.remove('flash');void cap.offsetWidth;cap.classList.add('flash');
-  }
-  lastOverCap=over;
-  const pLow=sum(plan,'plannedLow'),pHigh=sum(plan,'plannedHigh');
-  let vs=(pLow||pHigh)?'plan '+rng(pLow,pHigh)+' · logged '+f1(c.total):'';
-  $('vsPlan').innerHTML=esc(vs)+(over?(vs?'  ':'')+'<u>over the 60% cap</u>':'');
-  renderTally();
+/* ── reset ────────────────────────────────────────────────────────────────── */
+function resetRow(){
+  if(!state.reset) state.reset={athlete_id:state.viewing,week_start:state.weekStart,
+    quick_scan:{areas:{},days:{}},tier2_entries:[],stress:{},vibe:'',notes:''};
+  const r=state.reset;
+  if(!r.quick_scan||typeof r.quick_scan!=='object') r.quick_scan={areas:{},days:{}};
+  if(!r.quick_scan.areas) r.quick_scan.areas={};
+  if(!r.quick_scan.days)  r.quick_scan.days={};
+  if(!Array.isArray(r.tier2_entries)) r.tier2_entries=[];
+  if(!r.stress||typeof r.stress!=='object') r.stress={};
+  return r;
 }
-function tagLine(p){
-  const bits=[];
-  if(p.intent){
-    const cls=p.intent==='quality'?'quality':p.intent==='build'?'build':p.intent==='dip'?'dip':'';
-    bits.push('<span class="mk '+cls+'">'+(INTENT_MARK[p.intent]||'·')+'</span>'+esc(p.intent));
-  }
-  if(p.modality){
-    const g=p.modality==='XT'?GLYPH.xt:p.modality==='Run+XT'?(GLYPH.run+GLYPH.xt):GLYPH.run;
-    const c=p.modality==='XT'?'xtc':'runc';
-    bits.push('<span class="'+c+'">'+g+'</span>'+esc(p.modality));
-  }
-  if(p.zone)bits.push(esc(p.zone));
-  return bits.length?'<div class="tags">'+bits.join('<span class="sep">·</span>')+'</div>':'';
-}
-
-/* ---------------- week render ---------------- */
-function render(){
-  const r=state.row,plan=Array.isArray(r.plan_days)?r.plan_days:[];
-  $('wkTitle').textContent=pretty(r.week_of)+' – '+pretty(addDays(r.week_of,6));
-  const target=(r.weekly_low||r.weekly_high)?' · coach '+rng(r.weekly_low,r.weekly_high):'';
-  $('wkSub').textContent=(r.week_label||'no plan yet')+target;
-  $('todayBtn').classList.toggle('hide',
-    !(state.tab==='week'||state.tab==='retro')||state.weekOf===isoMonday(new Date()));
-  paintTotals(true);
-  $('days').innerHTML=DAYS.map((d,i)=>{
-    const p=plan.find(o=>o&&o.day===d)||plan[i]||{};
-    const a=r.actual_days[i];
-    const date=p.date||addDays(r.week_of,i);
-    const isOff=/off/i.test(p.workoutType||'')||(plan.length>0&&!num(p.plannedHigh)&&!num(p.coachHigh)&&!p.race);
-    const dbl=p.double?'AM '+p.double.amRun+' mi run + PM '+p.double.pmSpringer+' min springer':'';
-    const edge=p.race||p.intent==='quality'?'var(--cardinal)':(EDGE[p.modality]||'var(--line2)');
-    return `<div class="day rise ${isOff?'off':''} ${p.race?'race':''}"
-      style="--edge:${edge};animation-delay:${.14+i*.03}s">
-      <div class="gutter"><b>${DAYSHORT[i].toUpperCase()}</b><span>${mdy(date)}</span>
-        <div class="flags">
-          ${p.race?'<div class="flag race">race</div>':''}
-          ${p.lift?'<div class="flag lift">lift</div>':''}
-          ${isOff?'<div class="flag">off</div>':''}</div></div>
-      <div>
-        ${plan.length===0?'<div class="empty">No plan yet — paste this week\'s plan below, or just log what you did.</div>':`
-          ${p.workoutType?`<div class="wtype">${esc(p.workoutType)}</div>`:''}
-          ${p.workoutDetail?`<div class="wdetail">${esc(p.workoutDetail)}</div>`:''}
-          ${p.race?`<div class="wdetail">${esc(p.race.name)} — ${esc(p.race.location)} ${esc(p.race.time)}</div>`:''}
-          <div class="chips">
-            <span class="chip coach"><k>coach</k>${rng(p.coachLow,p.coachHigh)}</span>
-            <span class="chip plan"><k>plan</k>${rng(p.plannedLow,p.plannedHigh)}</span></div>
-          ${tagLine(p)}
-          ${dbl?`<div class="dbl">${esc(dbl)}</div>`:''}
-          ${p.coachText?`<div class="coachtext">${esc(p.coachText)}</div>`:''}
-          ${p.note?`<div class="note">${esc(p.note)}</div>`:''}`}
-        <div class="entry">
-          <div><input inputmode="decimal" data-i="${i}" data-k="miles" value="${a.miles||''}" placeholder="0" aria-label="${d} miles"><u>mi</u></div>
-          <div><input inputmode="numeric" data-i="${i}" data-k="xmin" value="${a.xmin||''}" placeholder="0" aria-label="${d} cross-training minutes"><u>min</u></div>
-        </div></div></div>`;
+function renderReset(){
+  const r=resetRow();
+  $('rsWhen').textContent='Week of '+fmtShort(state.weekStart);
+  const t=weekTotals();
+  $('rsTally').innerHTML=
+    `<div class="rowline"><span>Running</span><b>${f1(t.miles)} mi</b></div>
+     <div class="rowline"><span>Cross-training</span><b>${t.xmin} min</b></div>
+     <div class="rowline"><span>Sessions</span><b>${state.sessions.length}</b></div>`+
+    (t.equiv!=null?`<div class="rowline"><span>Equivalent total</span><b>${f1(t.equiv)} mi</b></div>`:'');
+  $('rsAreas').innerHTML=state.areas.map(([k,label])=>{
+    const v=Number(r.quick_scan.areas[k]||0);
+    return `<div class="area"><div class="top"><span class="nm">${esc(label)}</span>
+      <span class="word" data-word="${k}">${SCAN_WORDS[v]}</span></div>
+      <input type="range" min="0" max="5" step="1" value="${v}" data-area="${k}"
+        aria-label="${esc(label)}"></div>`;
   }).join('');
-  $('days').querySelectorAll('input').forEach(inp=>{
-    inp.addEventListener('input',e=>{
-      state.row.actual_days[+e.target.dataset.i][e.target.dataset.k]=num(e.target.value)||0;
-      paintTotals(false);queueSave(false);
-    });
+  $('otherLabel').value=r.quick_scan.otherLabel||'';
+  $('rsDays').innerHTML=DAYS.map((d,i)=>{
+    const iso=addDays(state.weekStart,i);
+    return `<button class="box${r.quick_scan.days[iso]?' on':''}" data-scanday="${iso}">${d}</button>`;
+  }).join('');
+  $('rsT2').innerHTML=r.tier2_entries.length
+    ? r.tier2_entries.map((e,i)=>`<div class="rowline"><span class="grow">${esc(e.text||'')}
+        <span class="sub">${esc(e.area||'')}${e.area&&e.when?' · ':''}${esc(e.when||'')}</span></span>
+        <button class="rm" data-t2del="${i}" aria-label="Remove">×</button></div>`).join('')
+    : '<div class="empty">Nothing yet.</div>';
+  $('rsStress').innerHTML=[1,2,3,4,5].map(n=>
+    `<button class="box${Number(r.stress.weekRating)===n?' on':''}" data-stress="${n}">${n}</button>`).join('');
+  $('rsVibe').innerHTML=VIBES.map(v=>
+    `<button class="box${r.vibe===v?' on':''}" data-vibe="${esc(v)}">${esc(v)}</button>`).join('');
+  $('rsNotes').value=r.notes||'';
+  wireReset();
+}
+function wireReset(){
+  const r=resetRow();
+  $('rsAreas').querySelectorAll('input[data-area]').forEach(el=>{
+    el.oninput=()=>{
+      const k=el.dataset.area,v=Number(el.value);
+      r.quick_scan.areas[k]=v;
+      const w=$('rsAreas').querySelector('[data-word="'+k+'"]');
+      if(w) w.textContent=SCAN_WORDS[v];
+      queueReset();
+    };
   });
-  paintRetro();
+  $('otherLabel').oninput=()=>{ r.quick_scan.otherLabel=$('otherLabel').value; queueReset(); };
+  $('rsDays').querySelectorAll('[data-scanday]').forEach(b=>{
+    b.onclick=()=>{ const iso=b.dataset.scanday;
+      r.quick_scan.days[iso]=!r.quick_scan.days[iso];
+      b.classList.toggle('on',!!r.quick_scan.days[iso]); queueReset(); };
+  });
+  $('rsStress').querySelectorAll('[data-stress]').forEach(b=>{
+    b.onclick=()=>{ const n=Number(b.dataset.stress);
+      r.stress.weekRating=(r.stress.weekRating===n)?null:n; renderReset(); queueReset(); };
+  });
+  $('rsVibe').querySelectorAll('[data-vibe]').forEach(b=>{
+    b.onclick=()=>{ r.vibe=(r.vibe===b.dataset.vibe)?'':b.dataset.vibe; renderReset(); queueReset(); };
+  });
+  $('rsT2').querySelectorAll('[data-t2del]').forEach(b=>{
+    b.onclick=()=>{ r.tier2_entries.splice(Number(b.dataset.t2del),1); renderReset(); queueReset(); };
+  });
+  $('rsNotes').oninput=()=>{ r.notes=$('rsNotes').value; queueReset(); };
+}
+$('rsAddT2').onclick=()=>{
+  openForm({title:'Add detail', fields:[
+    {key:'text',label:'What happened?',type:'textarea'},
+    {key:'area',label:'Where (optional)'},
+    {key:'when',label:'When (optional)',placeholder:'Tuesday, second rep'}
+  ], onSave:v=>{
+    if(!v.text || !v.text.trim()) return;
+    const r=resetRow();
+    r.tier2_entries.push({text:v.text.trim(),area:v.area||'',when:v.when||''});
+    renderReset(); queueReset();
+  }});
+};
+let resetTimer=null;
+function queueReset(){
+  clearTimeout(resetTimer);
+  resetTimer=setTimeout(async ()=>{
+    const r=resetRow();
+    const {data,error}=await sb.from('resets').upsert({
+      athlete_id:state.viewing, week_start:state.weekStart,
+      quick_scan:r.quick_scan, tier2_entries:r.tier2_entries,
+      stress:r.stress, vibe:r.vibe, notes:r.notes
+    },{onConflict:'athlete_id,week_start'}).select().single();
+    if(error) return fail('The Reset did not save',error);
+    state.reset=data;
+  },600);
 }
 
-/* ---------------- sunday reset ---------------- */
-function buildStaticRetro(){
-  $('areaSliders').innerHTML=AREAS.map(([k,lbl])=>`
-    <div class="slider" id="sl-${k}">
-      <div class="top"><span>${lbl}</span><i id="w-${k}"></i><b id="v-${k}">0</b></div>
-      <input type="range" min="0" max="5" step="1" value="0" data-area="${k}" aria-label="${lbl}">
-    </div>`).join('');
-  $('areaSliders').querySelectorAll('input[type=range]').forEach(s=>{
-    s.addEventListener('input',e=>{
-      const k=e.target.dataset.area,v=+e.target.value;
-      state.row.quick_scan.areas[k]=v;paintSlider(k,v);queueSave(true);
-    });
-  });
-  $('otherBoxes').innerHTML=[0,1,2,3,4,5].map(n=>`<button data-or="${n}">${n}</button>`).join('');
-  $('otherBoxes').querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>{const o=state.row.quick_scan.areas.other,n=+b.dataset.or;
-      o.rating=o.rating===n?null:n;o.present=!!(o.label||o.rating!==null);
-      paintOther();queueSave(true);};
-  });
-  $('scanDays').innerHTML=DAYS.map((d,i)=>`<button data-sd="${d}">${DAYSHORT[i]}</button>`).join('');
-  $('scanDays').querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>{const d=b.dataset.sd,days=state.row.quick_scan.days;
-      if(d in days)delete days[d];else days[d]='';
-      paintScanDays();queueSave(true);};
-  });
-  $('stressRating').innerHTML=[1,2,3,4,5].map(n=>`<button data-sr="${n}">${n}</button>`).join('');
-  $('stressRating').querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>{const n=+b.dataset.sr;
-      state.row.stress.weekRating=state.row.stress.weekRating===n?null:n;
-      paintStress();queueSave(true);};
-  });
-  $('stressDays').innerHTML=DAYS.map((d,i)=>`<button data-std="${d}">${DAYSHORT[i]}</button>`).join('');
-  $('stressDays').querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>{const d=b.dataset.std,arr=state.row.stress.stressfulDays;
-      const i=arr.indexOf(d);if(i>=0)arr.splice(i,1);else arr.push(d);
-      paintStress();queueSave(true);};
-  });
-  $('vibes').innerHTML=VIBES.map(v=>`<button data-vibe="${v}">${v}</button>`).join('');
-  $('vibes').querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>{state.row.vibe=state.row.vibe===b.dataset.vibe?'':b.dataset.vibe;
-      paintVibe();queueSave(true);};
-  });
-  $('notes').addEventListener('input',e=>{state.row.notes=e.target.value;queueSave(true);});
-  $('otherLabel').addEventListener('input',e=>{
-    const o=state.row.quick_scan.areas.other;
-    o.label=e.target.value;o.present=!!(o.label||o.rating!==null);
-    paintOther();queueSave(true);
-  });
-  $('addT2').onclick=()=>{
-    state.row.tier2_entries.push({date:fmt(new Date()),location:'',sev:0,pain:null,note:'',nonRunning:false});
-    paintT2();queueSave(true);
-  };
-}
-function paintSlider(k,v){
-  $('v-'+k).textContent=v;$('w-'+k).textContent=SCAN_WORDS[v];
-  const wrap=$('sl-'+k);
-  wrap.style.setProperty('--sev',sevVar(v));
-  const inp=wrap.querySelector('input[type=range]');
-  if(inp){inp.style.setProperty('--sev',sevVar(v));inp.style.setProperty('--fill',(v/5*100)+'%');}
-  $('w-'+k).style.color=v>=3?sevVar(v):'var(--dim2)';
-}
-function paintOther(){
-  const o=state.row.quick_scan.areas.other;
-  $('otherWrap').classList.toggle('hide',!o.label);
-  $('otherBoxes').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.or===o.rating));
-}
-function paintScanDays(){
-  const days=state.row.quick_scan.days;
-  $('scanDays').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.sd in days));
-  $('scanDayDetail').innerHTML=DAYS.filter(d=>d in days).map(d=>`
-    <div class="daydetail"><span>${DAYSHORT[DAYS.indexOf(d)]}</span>
-      <select data-dd="${d}"><option value="">choose one</option>
-        ${DAY_STATUS.map(s=>`<option ${days[d]===s?'selected':''}>${s}</option>`).join('')}
-      </select></div>`).join('');
-  $('scanDayDetail').querySelectorAll('select').forEach(s=>{
-    s.onchange=()=>{state.row.quick_scan.days[s.dataset.dd]=s.value;queueSave(true);};
-  });
-}
-function paintStress(){
-  const st=state.row.stress;
-  $('stressRating').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.sr===st.weekRating));
-  $('stressDays').querySelectorAll('button').forEach(b=>b.classList.toggle('on',st.stressfulDays.includes(b.dataset.std)));
-}
-function paintVibe(){
-  $('vibes').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.vibe===state.row.vibe));
-}
-function paintT2(){
-  $('t2list').innerHTML=state.row.tier2_entries.map((e,i)=>`
-    <div class="t2">
-      <div class="row2">
-        <div><label>Date</label><input type="date" data-t2="${i}" data-f="date" value="${esc(e.date)}"></div>
-        <div><label>Pain /10</label><input inputmode="numeric" data-t2="${i}" data-f="pain" value="${e.pain==null?'':e.pain}" placeholder="0-10"></div>
-      </div>
-      <label>Where</label>
-      <input data-t2="${i}" data-f="location" value="${esc(e.location)}" placeholder="e.g. left shin, medial">
-      <label>What it stops you doing</label>
-      <select data-t2="${i}" data-f="sev">
-        ${T2_SEV.map((s,n)=>`<option value="${n}" ${!e.nonRunning&&e.sev===n?'selected':''}>${n} — ${s}</option>`).join('')}
-        <option value="nr" ${e.nonRunning?'selected':''}>Not a running injury</option>
-      </select>
-      <label>Notes</label>
-      <input data-t2="${i}" data-f="note" value="${esc(e.note)}">
-      <button class="rmv" data-rm="${i}">Remove</button>
-    </div>`).join('');
-  $('t2list').querySelectorAll('[data-t2]').forEach(el=>{
-    el.addEventListener(el.tagName==='SELECT'?'change':'input',()=>{
-      const e=state.row.tier2_entries[+el.dataset.t2],f=el.dataset.f;
-      if(f==='sev'){if(el.value==='nr'){e.nonRunning=true;e.sev=null;}else{e.nonRunning=false;e.sev=+el.value;}}
-      else if(f==='pain'){let v=num(el.value);if(v!==null)v=Math.max(0,Math.min(10,v));e.pain=v;}
-      else e[f]=el.value;
-      queueSave(true);
-    });
-  });
-  $('t2list').querySelectorAll('[data-rm]').forEach(b=>{
-    b.onclick=()=>{state.row.tier2_entries.splice(+b.dataset.rm,1);paintT2();queueSave(true);};
-  });
-}
-function retroTouched(){
-  const r=state.row,q=r.quick_scan;
-  return AREAS.some(([k])=>q.areas[k]>0)||Object.keys(q.days).length>0||q.areas.other.present||
-    r.tier2_entries.length>0||r.stress.weekRating!==null||r.stress.stressfulDays.length>0||
-    !!r.vibe||!!(r.notes||'').trim();
-}
-const paintRetroDot=()=>$('retroDot').classList.toggle('hide',retroTouched());
-function renderTally(){
-  const r=state.row,plan=Array.isArray(r.plan_days)?r.plan_days:[],c=calc();
-  const pLow=sum(plan,'plannedLow'),pHigh=sum(plan,'plannedHigh');
-  const mid=(pLow+pHigh)/2,dv=c.total-mid;
-  $('tallyBox').innerHTML=
-    `<div class="tally"><span>Running</span><b>${f1(c.miles)} mi</b></div>
-     <div class="tally"><span>Cross-training</span><b>${c.xmin} min → ${f1(c.springer)} mi</b></div>
-     <div class="tally"><span>Total</span><b>${f1(c.total)} mi</b></div>
-     <div class="tally"><span>Springer share</span><b style="color:${sprColor(c.springerPct)}">${c.springerPct}%${c.springerPct>=60?' · over cap':''}</b></div>
-     ${(pLow||pHigh)?`<div class="tally"><span>Against plan</span><b>${rng(pLow,pHigh)} mi · ${dv>=0?'+':''}${f1(r1(dv))}</b></div>`:''}
-     ${(r.weekly_low||r.weekly_high)?`<div class="tally"><span>Coach's target</span><b>${rng(r.weekly_low,r.weekly_high)} mi</b></div>`:''}`;
-}
-function paintRetro(){
-  AREAS.forEach(([k])=>{
-    const v=state.row.quick_scan.areas[k]||0;
-    const el=$('areaSliders').querySelector('input[data-area="'+k+'"]');
-    if(el)el.value=v;
-    paintSlider(k,v);
-  });
-  $('otherLabel').value=state.row.quick_scan.areas.other.label||'';
-  paintOther();paintScanDays();paintT2();paintStress();paintVibe();
-  $('notes').value=state.row.notes||'';
-  renderTally();paintRetroDot();
-}
-
-/* ---------------- home ---------------- */
-async function loadHome(){
-  if(!cache.meets){
-    const {data,error}=await sb.from('meets').select('*').order('meet_date');
-    if(error){$('meetList').innerHTML='<div class="empty">Schedule unavailable — check your connection.</div>';return;}
-    cache.meets=data||[];
-  }
-  const today=fmt(new Date());
-  const up=cache.meets.filter(m=>m.meet_date>=today);
-  const next=up[0];
-  if(next){
-    $('countdown').innerHTML=
-      `<div><span class="n" id="cdN">0</span><span class="u">${daysOut(next.meet_date)===1?'day':'days'} out</span></div>
-       <div class="nm">${esc(next.name)}</div>
-       <div class="lo">${prettyY(next.meet_date)}${next.location?' · '+esc(next.location):''}</div>`;
-    setNum($('cdN'),daysOut(next.meet_date),false,'',true);
-  }else $('countdown').innerHTML='<div class="empty">Nothing left on the calendar.</div>';
-  $('meetList').innerHTML=up.slice(1,7).map(m=>`
-    <div class="meetrow ${m.goal_marker?'goal':''} ${m.certainty==='estimate'?'est':''}">
-      <div class="d">${daysOut(m.meet_date)}d</div>
-      <div><div class="n">${m.goal_marker?'◆ ':''}${esc(m.name)}</div>
-        <div class="s">${pretty(m.meet_date)}${m.certainty==='estimate'?' · estimated':''}${m.location&&m.location!=='TBD'?' · '+esc(m.location):''}</div>
-      </div></div>`).join('')||'<div class="empty">Nothing further scheduled.</div>';
-  const c=calc(),r=state.row;
-  const logged=r.actual_days.filter(d=>d.miles>0||d.xmin>0).length;
-  $('homeWeekLabel').textContent=pretty(r.week_of)+' – '+pretty(addDays(r.week_of,6));
-  $('homeSnapshot').innerHTML=
-    `<div class="tally"><span>Running</span><b>${f1(c.miles)} mi</b></div>
-     <div class="tally"><span>Total with springer</span><b>${f1(c.total)} mi</b></div>
-     <div class="tally"><span>Springer share</span><b style="color:${sprColor(c.springerPct)}">${c.springerPct}%${c.springerPct>=60?' · over cap':''}</b></div>
-     <div class="tally"><span>Days logged</span><b>${logged}/7</b></div>
-     <div class="tally"><span>Sunday Reset</span><b style="color:${retroTouched()?'var(--go)':'var(--dim2)'}">${retroTouched()?'started':'not yet'}</b></div>`;
-}
-
-/* ---------------- goals ---------------- */
+/* ── goals ────────────────────────────────────────────────────────────────────
+   One table, two kinds. Both athlete-written; the coach reads. Weekly progress
+   is jsonb keyed by ISO Monday, the same pattern as lift completions.          */
 async function loadGoals(){
-  const [o,p]=await Promise.all([
-    sb.from('outcome_goals').select('*').order('sort_order').order('created_at'),
-    sb.from('process_goals').select('*').order('sort_order').order('created_at')
-  ]);
-  cache.outcome=o.data||[];cache.process=p.data||[];
-  const since=addDays(isoMonday(new Date()),-49);
-  const {data:pw}=await sb.from('process_goal_weeks').select('*').gte('week_of',since);
-  cache.pgWeeks=pw||[];
-  paintGoals();paintReminders();
+  const {data,error}=await sb.from('goals').select('*')
+    .eq('athlete_id',state.viewing).order('sort_order',{nullsFirst:false}).order('created_at');
+  if(error){ $('outcomeList').innerHTML='<div class="empty">Goals unavailable — '+esc(error.message)+'</div>'; return; }
+  state.goals=data||[];
+  renderGoals();
 }
-function paintGoals(){
-  const won=cache.outcome.filter(g=>g.tier_hit);
-  $('trophyShelf').innerHTML=won.length?won.map(g=>{
-    const t=TIERS.find(t=>t[0]===g.tier_hit);
-    return `<div class="trophy"><b>${t?t[1]:g.tier_hit}</b><span>${esc(g.title)}</span></div>`;
-  }).join(''):'<div class="empty">Empty for now. Mark a tier below when you hit one.</div>';
+const outcomes = () => state.goals.filter(g=>g.kind==='outcome');
+const processes = () => state.goals.filter(g=>g.kind==='process' && g.active!==false);
+const TIERS=['safe','solid','reach'];
+function renderGoals(){
+  const hits=outcomes().filter(g=>g.tier_hit);
+  $('trophyShelf').innerHTML = hits.length
+    ? hits.map(g=>`<span class="trophy">${esc(g.title)} · ${esc(g.tier_hit)}</span>`).join('')
+    : '<div class="empty">Nothing hit yet. This fills up as you mark tiers.</div>';
 
-  $('outcomeList').innerHTML=cache.outcome.map(g=>`
-    <div class="goal ${g.tier_hit?'hit':''}">
-      <h3>${esc(g.title)}</h3>
-      ${g.season?`<div class="season">${esc(g.season)}</div>`:''}
-      <div style="margin-top:10px">
-        ${TIERS.map(([k,lbl])=>`
-          <div class="tier ${g.tier_hit===k?'won':''}">
-            <div class="lb">${lbl}</div>
-            <div class="tx">${esc(g['tier_'+k])||'<span style="color:var(--dim2)">—</span>'}</div>
-          </div>`).join('')}
-      </div>
-      <div class="tiermark">
-        ${TIERS.map(([k,lbl])=>`<button data-og="${g.id}" data-tier="${k}" class="${g.tier_hit===k?'on':''}">${lbl}</button>`).join('')}
-      </div>
-      <button class="rmv" data-ogedit="${g.id}">Edit</button>
-      <button class="rmv" data-ogdel="${g.id}" style="margin-left:6px">Delete</button>
-    </div>`).join('')||'<div class="empty">No outcome goals yet.</div>';
+  $('outcomeList').innerHTML = outcomes().length ? outcomes().map(g=>{
+    const t=(g.tiers&&typeof g.tiers==='object')?g.tiers:{};
+    const tiers=TIERS.map(k=>`<button class="tier${g.tier_hit===k?' hit':''}"
+      data-tier="${g.id}" data-k="${k}"><b>${k}</b>${esc(t[k]||'—')}</button>`).join('');
+    return `<div class="rowline" style="display:block">
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <span class="grow">${esc(g.title)}${g.season?`<span class="sub">${esc(g.season)}</span>`:''}</span>
+        <button class="rm" data-oedit="${g.id}" aria-label="Edit">✎</button>
+        <button class="rm" data-odel="${g.id}" aria-label="Delete">×</button>
+      </div><div class="tiers">${tiers}</div></div>`;
+  }).join('') : '<div class="empty">No outcome goals yet. These are yours to set.</div>';
 
-  $('outcomeList').querySelectorAll('[data-og]').forEach(b=>{
-    b.onclick=async()=>{
-      const g=cache.outcome.find(x=>x.id===b.dataset.og);
-      const nv=g.tier_hit===b.dataset.tier?null:b.dataset.tier;
-      g.tier_hit=nv;paintGoals();
-      const {error}=await sb.from('outcome_goals').update({tier_hit:nv}).eq('id',g.id);
-      if(error)banner("Couldn't update that goal: "+error.message,'err');
-    };
-  });
-  $('outcomeList').querySelectorAll('[data-ogedit]').forEach(b=>{
-    b.onclick=()=>editOutcome(cache.outcome.find(x=>x.id===b.dataset.ogedit));
-  });
-  $('outcomeList').querySelectorAll('[data-ogdel]').forEach(b=>{
-    b.onclick=async()=>{
-      const g=cache.outcome.find(x=>x.id===b.dataset.ogdel);
-      if(!confirm('Delete "'+g.title+'"?'))return;
-      await sb.from('outcome_goals').delete().eq('id',g.id);loadGoals();
-    };
-  });
-
-  const wk=isoMonday(new Date());
-  $('processList').innerHTML=cache.process.filter(g=>g.active).map(g=>{
-    const row=cache.pgWeeks.find(r=>r.goal_id===g.id&&r.week_of===wk);
-    const done=row?(g.target_count?row.count>=g.target_count:row.done):false;
+  const wk=mondayOf(new Date());
+  $('processList').innerHTML = processes().length ? processes().map(g=>{
+    const prog=(g.progress&&typeof g.progress==='object')?g.progress:{};
+    const row=prog[wk]||{count:0,done:false};
+    const done=g.target_count?(row.count>=g.target_count):!!row.done;
     const strip=Array.from({length:8},(_,i)=>{
-      const w=addDays(wk,-7*(7-i));
-      const r=cache.pgWeeks.find(x=>x.goal_id===g.id&&x.week_of===w);
-      const hit=r?(g.target_count?r.count>=g.target_count:r.done):false;
-      return `<i class="${hit?'hit':''} ${w===wk?'now':''}"></i>`;
+      const w=addDays(wk,-7*(7-i)), r=prog[w]||{};
+      const hit=g.target_count?((r.count||0)>=g.target_count):!!r.done;
+      return `<i class="${hit?'hit':''}${w===wk?' now':''}"></i>`;
     }).join('');
-    return `<div>
-      <div class="pg">
-        <div class="nm">${esc(g.title)}</div>
-        ${g.target_count?`<div class="ct">${row?row.count:0}/${g.target_count}</div>`:''}
-        <button class="tick ${done?'on':''}" data-pg="${g.id}">${done?'✓':'+'}</button>
-      </div>
-      <div class="streak">${strip}</div>
-      <button class="rmv" data-pgdel="${g.id}">Delete</button>
-    </div>`;
-  }).join('')||'<div class="empty">No process goals yet. These are the weekly habits you want to keep.</div>';
+    return `<div class="rowline" style="display:block">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="grow">${esc(g.title)}</span>
+        ${g.target_count?`<span class="cd">${row.count||0}/${g.target_count}</span>`:''}
+        <button class="tick${done?' on':''}" data-tick="${g.id}"
+          aria-pressed="${done}" aria-label="Mark done this week">${done?'✓':'+'}</button>
+        <button class="rm" data-pdel="${g.id}" aria-label="Delete">×</button>
+      </div><div class="streak" aria-hidden="true">${strip}</div></div>`;
+  }).join('') : '<div class="empty">No process goals yet. These are the weekly habits you choose to keep.</div>';
 
-  $('processList').querySelectorAll('[data-pg]').forEach(b=>{b.onclick=()=>bumpProcess(b.dataset.pg,b);});
-  $('processList').querySelectorAll('[data-pgdel]').forEach(b=>{
-    b.onclick=async()=>{
-      const g=cache.process.find(x=>x.id===b.dataset.pgdel);
-      if(!confirm('Delete "'+g.title+'"?'))return;
-      await sb.from('process_goals').delete().eq('id',g.id);loadGoals();
+  $('raceList').innerHTML = state.races.length ? state.races.map(r=>
+    `<div class="rowline"><span class="grow">${esc(r.name||'Race')}
+      <span class="sub">${fmtShort(r.date)}${r.location?' · '+esc(r.location):''}${
+        r.start_time?' · '+esc(r.start_time):''}</span></span>
+      <button class="rm" data-redit="${r.id}" aria-label="Edit">✎</button>
+      <button class="rm" data-rdel="${r.id}" aria-label="Delete">×</button></div>`).join('')
+    : '<div class="empty">No races yet.</div>';
+
+  wireGoals();
+}
+function wireGoals(){
+  document.querySelectorAll('[data-tier]').forEach(b=>{
+    b.onclick=async ()=>{
+      const g=state.goals.find(x=>x.id===b.dataset.tier);
+      const next=(g.tier_hit===b.dataset.k)?null:b.dataset.k;
+      g.tier_hit=next; renderGoals();
+      const {error}=await sb.from('goals').update({tier_hit:next}).eq('id',g.id);
+      if(error) fail('That did not save',error);
     };
   });
-}
-async function bumpProcess(id,btn){
-  const g=cache.process.find(x=>x.id===id),wk=isoMonday(new Date());
-  let row=cache.pgWeeks.find(r=>r.goal_id===id&&r.week_of===wk);
-  if(!row){row={goal_id:id,week_of:wk,count:0,done:false};cache.pgWeeks.push(row);}
-  if(g.target_count){
-    row.count=row.count>=g.target_count?0:row.count+1;
-    row.done=row.count>=g.target_count;
-  }else{row.done=!row.done;row.count=row.done?1:0;}
-  paintGoals();paintReminders();
-  document.querySelectorAll('[data-pg="'+id+'"],[data-rg="'+id+'"]').forEach(el=>{
-    if(!REDUCED){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+  document.querySelectorAll('[data-oedit]').forEach(b=>
+    b.onclick=()=>outcomeForm(state.goals.find(x=>x.id===b.dataset.oedit)));
+  document.querySelectorAll('[data-odel]').forEach(b=>
+    b.onclick=()=>delGoal(b.dataset.odel));
+  document.querySelectorAll('[data-pdel]').forEach(b=>
+    b.onclick=()=>delGoal(b.dataset.pdel));
+  document.querySelectorAll('[data-tick]').forEach(b=>
+    b.onclick=()=>tickProcess(b.dataset.tick));
+  document.querySelectorAll('[data-redit]').forEach(b=>
+    b.onclick=()=>raceForm(state.races.find(x=>x.id===b.dataset.redit)));
+  document.querySelectorAll('[data-rdel]').forEach(b=>{
+    b.onclick=()=>confirmDialog('Delete this race?','', async ()=>{
+      await sb.from('races').delete().eq('id',b.dataset.rdel);
+      await loadRaces(); renderGoals();
+    });
   });
-  const {error}=await sb.from('process_goal_weeks')
-    .upsert({goal_id:id,week_of:wk,count:row.count,done:row.done},{onConflict:'goal_id,week_of'});
-  if(error)banner("Couldn't save that goal tick: "+error.message,'err');
 }
-function editOutcome(g){
-  const title=prompt('Goal',g?g.title:'');if(title===null)return;
-  const safe=prompt('Safe tier',g?g.tier_safe:'')||'';
-  const solid=prompt('Solid tier',g?g.tier_solid:'')||'';
-  const reach=prompt('Reach tier',g?g.tier_reach:'')||'';
-  const season=prompt('Season (optional)',g?g.season:'')||'';
-  const payload={title,tier_safe:safe,tier_solid:solid,tier_reach:reach,season};
-  (g?sb.from('outcome_goals').update(payload).eq('id',g.id)
-     :sb.from('outcome_goals').insert(payload)).then(({error})=>{
-    if(error)banner("Couldn't save that goal: "+error.message,'err');
+function outcomeForm(g){
+  const t=(g&&g.tiers&&typeof g.tiers==='object')?g.tiers:{};
+  openForm({title:g?'Edit goal':'Add an outcome goal', fields:[
+    {key:'title',label:'Goal',value:g?g.title:''},
+    {key:'safe',label:'Safe',value:t.safe||''},
+    {key:'solid',label:'Solid',value:t.solid||''},
+    {key:'reach',label:'Reach',value:t.reach||''},
+    {key:'season',label:'Season (optional)',value:g?g.season||'':''}
+  ], onSave: async v=>{
+    if(!v.title||!v.title.trim()) return;
+    const payload={athlete_id:state.viewing,kind:'outcome',title:v.title.trim(),
+      tiers:{safe:v.safe,solid:v.solid,reach:v.reach},season:v.season||null};
+    const {error}= g ? await sb.from('goals').update(payload).eq('id',g.id)
+                     : await sb.from('goals').insert(payload);
+    if(error) return fail('Could not save that goal',error);
     loadGoals();
-  });
+  }});
 }
-$('addOutcome').onclick=()=>editOutcome(null);
+$('addOutcome').onclick=()=>outcomeForm(null);
 $('addProcess').onclick=()=>{
-  const title=prompt('Process goal (e.g. "Strides twice a week")');if(!title)return;
-  const t=prompt('Times per week? Leave blank for a simple done / not done.');
-  sb.from('process_goals').insert({title,target_count:num(t)}).then(({error})=>{
-    if(error)banner("Couldn't save that goal: "+error.message,'err');
+  openForm({title:'Add a process goal', fields:[
+    {key:'title',label:'The habit',placeholder:'Strides twice a week'},
+    {key:'target_count',label:'Times per week (blank for done / not done)',type:'number'}
+  ], onSave: async v=>{
+    if(!v.title||!v.title.trim()) return;
+    const {error}=await sb.from('goals').insert({athlete_id:state.viewing,kind:'process',
+      title:v.title.trim(),target_count:num(v.target_count),progress:{}});
+    if(error) return fail('Could not save that goal',error);
+    loadGoals();
+  }});
+};
+function delGoal(id){
+  const g=state.goals.find(x=>x.id===id);
+  confirmDialog('Delete "'+(g?g.title:'this goal')+'"?','It cannot be undone.', async ()=>{
+    const {error}=await sb.from('goals').delete().eq('id',id);
+    if(error) return fail('Could not delete that',error);
     loadGoals();
   });
+}
+async function tickProcess(id){
+  const g=state.goals.find(x=>x.id===id), wk=mondayOf(new Date());
+  const prog=(g.progress&&typeof g.progress==='object')?{...g.progress}:{};
+  const row={...(prog[wk]||{count:0,done:false})};
+  if(g.target_count){
+    row.count=(row.count>=g.target_count)?0:(row.count||0)+1;
+    row.done=row.count>=g.target_count;
+  } else { row.done=!row.done; row.count=row.done?1:0; }
+  prog[wk]=row; g.progress=prog; renderGoals();
+  const {error}=await sb.from('goals').update({progress:prog}).eq('id',id);
+  if(error) fail('That tick did not save',error);
+}
+function raceForm(r){
+  openForm({title:r?'Edit race':'Add a race', fields:[
+    {key:'name',label:'Race',value:r?r.name:''},
+    {key:'date',label:'Date',type:'date',value:r?r.date:''},
+    {key:'start_time',label:'Start time (optional)',value:r?r.start_time||'':''},
+    {key:'location',label:'Where (optional)',value:r?r.location||'':''},
+    {key:'distance',label:'Distance (optional)',value:r?r.distance||'':''}
+  ], onSave: async v=>{
+    if(!v.name||!isIso(v.date)) return banner('A race needs a name and a valid date.');
+    const payload={athlete_id:state.viewing,name:v.name.trim(),date:v.date,
+      start_time:v.start_time||null,location:v.location||null,distance:v.distance||null};
+    const {error}= r ? await sb.from('races').update(payload).eq('id',r.id)
+                     : await sb.from('races').insert(payload);
+    if(error) return fail('Could not save that race',error);
+    await loadRaces(); renderGoals();
+  }});
+}
+$('addRace').onclick=()=>raceForm(null);
+
+/* ── export ───────────────────────────────────────────────────────────────── */
+$('buildExport').onclick=async ()=>{
+  const from=$('expFrom').value, to=$('expTo').value;
+  if(!isIso(from)||!isIso(to)) return banner('Pick both dates first.');
+  $('expStatus').className='status'; $('expStatus').textContent='Building…';
+  const [ss,ws,rs]=await Promise.all([
+    sb.from('sessions').select('*').eq('athlete_id',state.viewing)
+      .gte('date',from).lte('date',to).order('date'),
+    sb.from('weeks').select('week_start,label,plan_days,weekly_low,weekly_high')
+      .eq('athlete_id',state.viewing).gte('week_start',from).lte('week_start',to).order('week_start'),
+    sb.from('resets').select('*').eq('athlete_id',state.viewing)
+      .gte('week_start',from).lte('week_start',to).order('week_start')
+  ]);
+  if(ss.error) { $('expStatus').className='status err';
+    $('expStatus').textContent=ss.error.message; return; }
+  const t=weekTotals(ss.data||[]);
+  const lines=[
+    `${viewingName()} — ${from} to ${to}`,
+    `Running ${f1(t.miles)} mi over ${t.runs} runs`,
+    `Cross-training ${t.xmin} min over ${t.crosses} sessions`,
+    t.equiv!=null?`Equivalent total ${f1(t.equiv)} mi`:`(no xt_divisor set — minutes are not converted)`,
+    `Lifts ${t.lifts}`,'',
+    JSON.stringify({sessions:ss.data||[],weeks:ws.data||[],resets:rs.data||[]},null,2)
+  ];
+  $('expOut').value=lines.join('\n');
+  $('expOut').classList.remove('hide');
+  $('expStatus').className='status ok';
+  $('expStatus').textContent=(ss.data||[]).length+' sessions. Select all and copy.';
 };
-async function loadReminders(){
-  if(!cache.process){
-    const {data}=await sb.from('process_goals').select('*').order('sort_order');
-    cache.process=data||[];
-    const since=addDays(isoMonday(new Date()),-49);
-    const {data:pw}=await sb.from('process_goal_weeks').select('*').gte('week_of',since);
-    cache.pgWeeks=pw||[];
+
+/* ── home ─────────────────────────────────────────────────────────────────── */
+async function loadRaces(){
+  const {data,error}=await sb.from('races').select('*')
+    .eq('athlete_id',state.viewing).order('date');
+  if(error) return;
+  state.races=data||[];
+  if(state.tab==='home') renderHome();
+}
+function renderHome(){
+  const h=new Date().getHours();
+  $('homeGreet').textContent=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+  $('homeName').textContent=(state.me&&state.me.display_name)||'';
+  if(isCoach()){
+    $('athleteList').innerHTML=state.athletes.map(a=>
+      `<button class="box${a.id===state.viewing?' on':''}" data-view="${a.id}">${
+        esc(a.display_name||'—')}${a.role==='coach'?' (you)':''}</button>`).join('');
+    $('athleteList').querySelectorAll('[data-view]').forEach(b=>
+      b.onclick=()=>setViewing(b.dataset.view));
   }
-  paintReminders();
+  const upcoming=state.races.filter(r=>daysUntil(r.date)>=0).slice(0,6);
+  $('homeRaces').innerHTML=upcoming.length ? upcoming.map(r=>{
+    const d=daysUntil(r.date), when=d===0?'today':d===1?'tomorrow':d+' days';
+    return `<div class="rowline"><span class="grow">${esc(r.name||'Race')}
+      <span class="sub">${fmtShort(r.date)}${r.location?' · '+esc(r.location):''}${
+        r.start_time?' · '+esc(r.start_time):''}</span></span>
+      <span class="cd${d<=7?' soon':''}">${when}</span></div>`;
+  }).join('') : '<div class="empty">No races on the calendar yet.</div>';
+  const t=weekTotals(), logged=new Set(state.sessions.map(s=>s.date)).size;
+  $('homeSnapshot').innerHTML=
+    `<div class="rowline"><span>Running</span><b>${f1(t.miles)} mi</b></div>
+     <div class="rowline"><span>Cross-training</span><b>${t.xmin} min</b></div>
+     <div class="rowline"><span>Days logged</span><b>${logged}/7</b></div>
+     <div class="rowline"><span>Sunday Reset</span><b>${state.reset?'started':'not yet'}</b></div>`;
 }
-function paintReminders(){
-  const wk=isoMonday(new Date());
-  const act=(cache.process||[]).filter(g=>g.active);
-  $('reminderCard').classList.toggle('hide',act.length===0||state.weekOf!==wk);
-  $('reminders').innerHTML=act.map(g=>{
-    const row=(cache.pgWeeks||[]).find(r=>r.goal_id===g.id&&r.week_of===wk);
-    const done=row?(g.target_count?row.count>=g.target_count:row.done):false;
-    return `<div class="reminder"><div class="nm">${esc(g.title)}</div>
-      ${g.target_count?`<div class="ct">${row?row.count:0}/${g.target_count}</div>`:''}
-      <button class="tick ${done?'on':''}" data-rg="${g.id}">${done?'✓':'+'}</button></div>`;
+
+/* ── lift ─────────────────────────────────────────────────────────────────── */
+async function loadLift(){
+  if(state.cycles.length){ renderLift(); return; }
+  const {data,error}=await sb.from('lift_cycles').select('*')
+    .eq('athlete_id',state.viewing).order('cycle_start',{ascending:false});
+  if(error){ $('liftBody').innerHTML='<div class="panel"><div class="empty">Lift unavailable — '
+    +esc(error.message)+'</div></div>'; return; }
+  state.cycles=data||[];
+  const today=todayIso();
+  let i=state.cycles.findIndex(c=>c.cycle_start<=today);
+  state.cycIdx=i<0?0:i;
+  state.cycWeek=currentLiftWeek();
+  renderLift();
+}
+function curCycle(){ return state.cycles.length?state.cycles[state.cycIdx]:null; }
+function cycWeeks(c){ return (c&&Array.isArray(c.weeks))?c.weeks:[]; }
+/* Default to the week the athlete is actually in. Most opens are "what am I
+   lifting today", not "let me review week 1". */
+function currentLiftWeek(){
+  const c=curCycle(); if(!c) return 1;
+  const n=cycWeeks(c).length||1;
+  const off=Math.floor((parseIso(todayIso())-parseIso(c.cycle_start))/DAY_MS);
+  return Math.min(n,Math.max(1,Math.floor(off/7)+1));
+}
+const dayKeysOf = w => (w&&w.days&&typeof w.days==='object')?Object.keys(w.days):[];
+const liftDate = (c,weekNo,dayKey) => {
+  const i=DAYS.indexOf(dayKey);
+  return addDays(c.cycle_start,(weekNo-1)*7+(i<0?0:i));
+};
+function renderLift(){
+  const c=curCycle();
+  if(!c){
+    $('liftWhen').textContent=''; $('liftLabel').textContent='Lift';
+    $('liftCyc').innerHTML=''; $('liftWeeks').innerHTML='';
+    $('liftBody').innerHTML='<div class="panel"><div class="empty">No lift cycle published yet.</div></div>';
+    return;
+  }
+  const weeks=cycWeeks(c), n=weeks.length||1;
+  $('liftWhen').textContent='Block of '+fmtShort(c.cycle_start);
+  $('liftLabel').textContent=c.cycle_label||'Lift';
+  $('liftCyc').innerHTML=
+    `<button class="pill" id="cycPrev" ${state.cycIdx>=state.cycles.length-1?'disabled':''}>‹</button>
+     <span class="lbl">${esc(c.cycle_label||'Block')} · week ${state.cycWeek} of ${n}</span>
+     <button class="pill" id="cycNext" ${state.cycIdx<=0?'disabled':''}>›</button>`;
+  $('cycPrev').onclick=()=>{ state.cycIdx++; state.cycWeek=currentLiftWeek(); state.liftOpenDay=null; renderLift(); };
+  $('cycNext').onclick=()=>{ state.cycIdx--; state.cycWeek=currentLiftWeek(); state.liftOpenDay=null; renderLift(); };
+
+  $('liftWeeks').innerHTML=weeks.map((w,i)=>{
+    const no=w.week_number||i+1;
+    let done=0,total=0;
+    dayKeysOf(w).forEach(k=>{
+      const ex=(w.days[k].exercises)||[];
+      total+=ex.length;
+      const date=liftDate(c,no,k);
+      ex.forEach((_,j)=>{ if(c.completions&&c.completions[date+'|'+j]) done++; });
+    });
+    return `<button class="${no===state.cycWeek?'on':''}" data-lw="${no}">Week ${no}
+      <b>${done}/${total}</b></button>`;
   }).join('');
-  $('reminders').querySelectorAll('[data-rg]').forEach(b=>{b.onclick=()=>bumpProcess(b.dataset.rg,b);});
+  $('liftWeeks').querySelectorAll('[data-lw]').forEach(b=>
+    b.onclick=()=>{ state.cycWeek=Number(b.dataset.lw); state.liftOpenDay=null; renderLift(); });
+
+  const w=weeks.find((x,i)=>(x.week_number||i+1)===state.cycWeek)||weeks[0];
+  const keys=dayKeysOf(w);
+  if(!keys.length){ $('liftBody').innerHTML='<div class="empty">Nothing scheduled this week.</div>'; return; }
+  if(state.liftOpenDay && !keys.includes(state.liftOpenDay)) state.liftOpenDay=null;
+
+  $('liftBody').innerHTML = state.liftOpenDay
+    ? liftDetailHTML(c,w,state.liftOpenDay)
+    : keys.map(k=>{
+        const d=w.days[k], ex=d.exercises||[], date=liftDate(c,state.cycWeek,k);
+        const done=ex.filter((_,j)=>c.completions&&c.completions[date+'|'+j]).length;
+        return `<button class="dayc" data-ld="${esc(k)}">
+          <span class="nm">${esc(k)}<span class="sub">${esc(d.sessionFocus||'')} · ${fmtShort(date)}</span></span>
+          <span class="ct">${done}/${ex.length}</span></button>`;
+      }).join('');
+  $('liftBody').querySelectorAll('[data-ld]').forEach(b=>
+    b.onclick=()=>{ state.liftOpenDay=b.dataset.ld; renderLift(); });
+  wireLiftDetail();
+}
+function liftDetailHTML(c,w,key){
+  const d=w.days[key]||{}, ex=d.exercises||[], date=liftDate(c,state.cycWeek,key);
+  return `<div class="card"><div class="card-top">
+    <div class="card-when"><b>${esc(key)} · ${fmtShort(date)}</b>
+      <button class="pill" id="liftBack">Back</button></div>
+    <div class="plan-h"><b style="font-size:18px;font-weight:500">${esc(d.sessionFocus||'Lift')}</b></div>
+  </div><div class="log">${ex.map((e,j)=>exHTML(c,e,j,date,key)).join('')||
+    '<div class="empty">Nothing prescribed.</div>'}</div></div>`;
+}
+function exHTML(c,e,j,date,key){
+  const ck=date+'|'+j, on=!!(c.completions&&c.completions[ck]);
+  const prog=Array.isArray(e.progressions)?e.progressions:[];
+  const ok=key+'|'+(e.name||j);
+  const ov=(c.progression_overrides&&c.progression_overrides[ok]!=null)
+    ? Number(c.progression_overrides[ok]) : null;
+  const idx=prog.indexOf((e.dosing&&e.dosing.value)||'');
+  /* If the prescription is not one of the ladder steps, the prescription wins.
+     Falling back to progressions[0] would silently overwrite what the coach
+     actually wrote with the easiest rung. */
+  const onLadder = ov!=null || idx>=0;
+  const step = ov!=null ? ov : (idx>=0?idx:0);
+  const dose = (onLadder && prog.length) ? prog[Math.min(step,prog.length-1)]
+                                         : ((e.dosing&&e.dosing.value)||'');
+  const backTo = step-1, fwdTo = onLadder ? step+1 : 0;
+  return `<div class="ex">
+    <div class="hd">
+      <button class="chk${on?' on':''}" data-ck="${ck}" aria-pressed="${on}"
+        aria-label="Mark ${esc(e.name||'exercise')} complete">${on?'✓':''}</button>
+      <span class="nm">${esc(e.name||'—')}${e.area?`<span class="sub">${esc(e.area)}</span>`:''}</span>
+      <span class="dose">${esc(dose)}</span>
+    </div>
+    ${e.cue?`<div class="cue">${esc(e.cue)}</div>`:''}
+    ${e.gate?`<div class="gate">${esc(e.gate)}</div>`:''}
+    ${prog.length?`<div class="steps">
+      <span class="cur">${onLadder
+        ? `Step ${Math.min(step,prog.length-1)+1} of ${prog.length}`
+        : `As prescribed · ${prog.length}-step ladder`}</span>
+      <button data-step="${ok}" data-to="${backTo}" ${
+        !onLadder||backTo<0?'disabled':''}>Step back</button>
+      <button data-step="${ok}" data-to="${fwdTo}" ${
+        onLadder&&fwdTo>prog.length-1?'disabled':''}>Advance</button>
+    </div>`:''}</div>`;
+}
+function wireLiftDetail(){
+  const back=$('liftBack');
+  if(back) back.onclick=()=>{ state.liftOpenDay=null; renderLift(); };
+  document.querySelectorAll('[data-ck]').forEach(b=>
+    b.onclick=()=>toggleCompletion(b.dataset.ck));
+  document.querySelectorAll('[data-step]').forEach(b=>
+    b.onclick=()=>stepProgression(b.dataset.step,Number(b.dataset.to)));
+}
+async function toggleCompletion(ck){
+  const c=curCycle(); if(!c) return;
+  const done={...(c.completions||{})};
+  if(done[ck]) delete done[ck]; else done[ck]=true;
+  c.completions=done; renderLift();
+  const {error}=await sb.from('lift_cycles').update({completions:done}).eq('id',c.id);
+  if(error) fail('That tick did not save',error);
+}
+async function stepProgression(key,to){
+  const c=curCycle(); if(!c) return;
+  const ov={...(c.progression_overrides||{})};
+  ov[key]=Math.max(0,to);
+  c.progression_overrides=ov; renderLift();
+  const {error}=await sb.from('lift_cycles').update({progression_overrides:ov}).eq('id',c.id);
+  if(error) fail('That change did not save',error);
 }
 
-const ALL7=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-
-/* ---------------- export ---------------- */
-function buildExportUI(){
-  const presets=[['4w','4 weeks'],['8w','8 weeks'],['season','Season'],['all','All']];
-  $('rangePresets').innerHTML=presets.map(([k,l])=>`<button data-rp="${k}">${l}</button>`).join('');
-  $('rangePresets').querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>{
-      const today=isoMonday(new Date());
-      const map={'4w':addDays(today,-21),'8w':addDays(today,-49),'season':'2026-06-01','all':'2000-01-01'};
-      $('expFrom').value=map[b.dataset.rp];
-      $('expTo').value=addDays(today,6);
-      $('rangePresets').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+/* ── calendar ─────────────────────────────────────────────────────────────────
+   Log-scaled circles, one per category per day, domain capped at the 95th
+   percentile so a single long run cannot flatten the grid. Cross-training is
+   converted only when this athlete has a divisor.                              */
+const R_MIN=8, R_MAX=22, LABEL_MIN_R=12, CATS=['run','cross','lift'];
+async function loadCal(){
+  const from=addDays(mondayOf(new Date()),-7*11);
+  const {data,error}=await sb.from('sessions')
+    .select('date,category,distance_mi,duration_min,workout_type,title')
+    .eq('athlete_id',state.viewing).gte('date',from).order('date');
+  if(error){ $('calWeeks').innerHTML='<div class="empty">Calendar unavailable — '
+    +esc(error.message)+'</div>'; return; }
+  state.calSessions=data||[];
+  renderCal();
+}
+const xtVal = min => { const d=xtDivisor(); return d ? min/d : min; };
+function percentile(arr,p){
+  if(!arr.length) return 0;
+  const s=[...arr].sort((a,b)=>a-b), i=(s.length-1)*p, lo=Math.floor(i), hi=Math.ceil(i);
+  return lo===hi?s[lo]:s[lo]+(s[hi]-s[lo])*(i-lo);
+}
+function buildScales(days){
+  const sc={};
+  CATS.forEach(cat=>{
+    const vals=days.map(d=>d.totals[cat]).filter(v=>v>0);
+    if(!vals.length){ sc[cat]=()=>R_MIN; return; }
+    const d0=Math.min(...vals), d1=Math.max(percentile(vals,.95),d0*1.0001);
+    const l0=Math.log(d0), l1=Math.log(d1);
+    sc[cat]=v=>{
+      if(!v||v<=0) return null;
+      if(l1<=l0) return (R_MIN+R_MAX)/2;
+      const t=(Math.log(v)-l0)/(l1-l0);
+      return Math.max(R_MIN,Math.min(R_MAX,R_MIN+t*(R_MAX-R_MIN)));
     };
   });
-  $('expFrom').value=addDays(isoMonday(new Date()),-21);
-  $('expTo').value=addDays(isoMonday(new Date()),6);
+  return sc;
 }
-$('buildExport').onclick=async()=>{
-  const from=$('expFrom').value,to=$('expTo').value;
-  if(!from||!to)return say($('expStatus'),'Pick both dates first.','err');
-  say($('expStatus'),'Building…');
-  const [w,o,p,pw]=await Promise.all([
-    sb.from('weeks').select('*').gte('week_of',from).lte('week_of',to).order('week_of'),
-    sb.from('outcome_goals').select('*').order('created_at'),
-    sb.from('process_goals').select('*').order('created_at'),
-    sb.from('process_goal_weeks').select('*').gte('week_of',from).lte('week_of',to)
-  ]);
-  if(w.error)return say($('expStatus'),"Couldn't build it — "+w.error.message,'err');
-  const weeks=(w.data||[]).map(raw=>{
-    const r=normalizeRow(raw),t=weekTotals(r);
-    return {week_of:r.week_of,week_label:r.week_label||'',race_week:!!r.race_week,
-      coachTarget:{low:r.weekly_low,high:r.weekly_high},totals:t,
-      days:DAYS.map((d,i)=>{
-        const pl=(r.plan_days||[]).find(x=>x&&x.day===d)||(r.plan_days||[])[i]||{};
-        const a=r.actual_days[i];
-        return {day:d,date:pl.date||addDays(r.week_of,i),
-          coachText:pl.coachText||null,coachLow:pl.coachLow??null,coachHigh:pl.coachHigh??null,
-          workoutType:pl.workoutType||null,workoutDetail:pl.workoutDetail||null,
-          plannedLow:pl.plannedLow??null,plannedHigh:pl.plannedHigh??null,
-          intent:pl.intent||null,modality:pl.modality||null,zone:pl.zone||null,
-          lift:!!pl.lift,double:pl.double||null,race:pl.race||null,note:pl.note||null,
-          actualMiles:a.miles,actualXmin:a.xmin};
-      }),
-      retro:{quickScan:r.quick_scan,tier2:r.tier2_entries,stress:r.stress,
-        vibe:r.vibe||null,notes:r.notes||null,savedAt:r.retro_saved_at||null}};
+function groupCal(){
+  const byDay={};
+  state.calSessions.forEach(s=>{
+    const d=byDay[s.date]||(byDay[s.date]={date:s.date,items:[],
+      totals:{run:0,cross:0,lift:0},counts:{run:0,cross:0,lift:0}});
+    d.items.push(s); d.counts[s.category]=(d.counts[s.category]||0)+1;
+    if(s.category==='run')   d.totals.run  += num(s.distance_mi)||0;
+    if(s.category==='cross') d.totals.cross+= xtVal(num(s.duration_min)||0);
+    if(s.category==='lift')  d.totals.lift += 1;
   });
-  const goals={
-    outcome:(o.data||[]).map(g=>({title:g.title,season:g.season||null,
-      tiers:{safe:g.tier_safe||null,solid:g.tier_solid||null,reach:g.tier_reach||null},
-      tierHit:g.tier_hit||null})),
-    process:(p.data||[]).filter(g=>g.active).map(g=>{
-      const rows=(pw.data||[]).filter(r=>r.goal_id===g.id);
-      const hits=rows.filter(r=>g.target_count?r.count>=g.target_count:r.done).length;
-      return {title:g.title,targetPerWeek:g.target_count||null,
-        weeksInRange:rows.length,weeksHit:hits,
-        byWeek:rows.sort((a,b)=>a.week_of<b.week_of?-1:1)
-          .map(r=>({week_of:r.week_of,count:r.count,done:r.done}))};
-    })
-  };
-  const digest={exportedAt:new Date().toISOString(),range:{from,to},
-    weekCount:weeks.length,weeks,goals};
-  $('expOut').value=JSON.stringify(digest,null,1);
-  $('expOutCard').classList.remove('hide');
-  $('expMeta').textContent=weeks.length+' week'+(weeks.length===1?'':'s');
-  say($('expStatus'),'Built '+weeks.length+' week'+(weeks.length===1?'':'s')+'. Copy it, or save the file as your backup.','ok');
-};
-$('copyExport').onclick=async()=>{
-  const t=$('expOut');
-  try{await navigator.clipboard.writeText(t.value);say($('expStatus'),'Copied.','ok');}
-  catch(e){t.removeAttribute('readonly');t.select();document.execCommand('copy');
-    t.setAttribute('readonly','');say($('expStatus'),'Copied.','ok');}
-};
-$('dlExport').onclick=()=>{
-  const blob=new Blob([$('expOut').value],{type:'application/json'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='training-hub-'+fmt(new Date())+'.json';
-  document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-};
+  const byWeek={};
+  Object.values(byDay).forEach(d=>{
+    const wk=mondayOf(parseIso(d.date));
+    (byWeek[wk]||(byWeek[wk]={week_start:wk,days:{}})).days[d.date]=d;
+  });
+  return Object.values(byWeek).sort((a,b)=>b.week_start.localeCompare(a.week_start));
+}
+function renderCal(){
+  const weeks=groupCal();
+  const asMiles=xtDivisor()!=null;
+  if(!weeks.length){ $('calWeeks').innerHTML='<div class="empty">Nothing logged yet.</div>'; return; }
+  const scale=buildScales(weeks.flatMap(w=>Object.values(w.days)));
+  $('calWeeks').innerHTML=weeks.map(w=>{
+    let total=0, cells='';
+    for(let i=0;i<7;i++){
+      const iso=addDays(w.week_start,i), day=w.days[iso];
+      if(!day){ cells+=`<button class="cell" disabled aria-label="${fmtShort(iso)}: rest">
+        <span class="rest"></span></button>`; continue; }
+      total+=day.totals.run+(asMiles?day.totals.cross:0);
+      let dots='';
+      CATS.forEach(cat=>{
+        if(!day.counts[cat]) return;
+        const val=day.totals[cat];
+        const rad=cat==='lift'?7:scale[cat](val);
+        if(rad==null) return;
+        const first=day.items.find(s=>s.category===cat)||{};
+        const wt=first.workout_type;
+        const label=(cat!=='lift'&&rad>=LABEL_MIN_R)
+          ? (cat==='cross'&&!asMiles?Math.round(val)+'m':(val>=10?Math.round(val):f1(val))) : '';
+        dots+=`<span class="dot ${cat}${wt==='long'?' long':''}${wt==='workout'?' workout':''}${
+          wt==='race'?' race':''}" style="width:${rad*2}px;height:${rad*2}px">${label}</span>`;
+      });
+      cells+=`<button class="cell" data-calday="${iso}"
+        aria-label="${fmtShort(iso)}: open that week">${dots}</button>`;
+    }
+    return `<div class="calweek">
+      <div class="calwk"><b>${fmtShort(w.week_start)}</b></div>
+      <div class="caltot">${total?f1(total)+(asMiles?' mi':' run mi'):'—'}</div>
+      <div class="caldays">${cells}</div></div>`;
+  }).join('');
+  $('calWeeks').querySelectorAll('[data-calday]').forEach(b=>
+    b.onclick=()=>{ state.weekStart=mondayOf(parseIso(b.dataset.calday));
+      state.openDay=b.dataset.calday; loadWeek(); setTab('week'); });
+  $('calLegend').innerHTML=
+    `<span><i style="background:var(--grass)"></i>Run</span>
+     <span><i style="background:var(--long)"></i>Long run</span>
+     <span><i class="x"></i>Cross-training, ${asMiles?'in equivalent miles':'minutes'}</span>
+     <span><i style="background:var(--stone)"></i>Lift</span>
+     <span><i style="background:var(--grass);box-shadow:0 0 0 1.5px var(--paper),0 0 0 3px var(--quality)"></i>Workout</span>
+     <span><i style="background:var(--grass);box-shadow:0 0 0 1.5px var(--paper),0 0 0 3px var(--race)"></i>Race</span>`;
+}
 
-/* ---------------- nav / import ---------------- */
-$('prevW').onclick=()=>{state.weekOf=addDays(state.weekOf,-7);loadWeek();};
-$('nextW').onclick=()=>{state.weekOf=addDays(state.weekOf,7);loadWeek();};
-$('todayBtn').onclick=()=>{state.weekOf=isoMonday(new Date());loadWeek();};
-
-$('importBtn').onclick=async()=>{
-  const raw=$('planIn').value.trim();
-  if(!raw)return say($('importStatus'),'Paste a plan first.','err');
-  let p;
-  try{p=JSON.parse(raw.replace(/^```(json)?/i,'').replace(/```$/,'').trim());}
-  catch(e){return say($('importStatus'),"That isn't valid JSON — "+e.message,'err');}
-  const errs=[];
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(p.week_of||''))errs.push('week_of is missing or not YYYY-MM-DD');
-  else if(isoMonday(p.week_of)!==p.week_of)errs.push('week_of ('+p.week_of+') is not a Monday — use '+isoMonday(p.week_of));
-  if(!Array.isArray(p.days))errs.push('days is not an array');
-  else if(p.days.length!==7)errs.push('days has '+p.days.length+' entries — it needs exactly 7');
-  else p.days.forEach((d,i)=>{if(!d||d.day!==DAYS[i])errs.push('days['+i+'].day should be "'+DAYS[i]+'", got "'+(d&&d.day)+'"');});
-  if(errs.length)return say($('importStatus'),'Nothing imported:\n· '+errs.join('\n· '),'err');
-  say($('importStatus'),'Importing…');
-  const {data:existing}=await sb.from('weeks').select('*').eq('week_of',p.week_of).maybeSingle();
-  const payload={week_of:p.week_of,week_label:p.week_label||'',race_week:!!p.raceWeek,
-    weekly_low:num(p.weeklyTarget&&p.weeklyTarget.low),weekly_high:num(p.weeklyTarget&&p.weeklyTarget.high),
-    plan_days:p.days,
-    actual_days:existing?normalizeActual(existing.actual_days):DAYS.map(d=>({day:d,miles:0,xmin:0}))};
-  const {error}=await sb.from('weeks').upsert(payload,{onConflict:'user_id,week_of'});
-  if(error)return say($('importStatus'),"Didn't save — "+error.message,'err');
-  say($('importStatus'),'Imported '+(p.week_label||p.week_of)+
-    (existing&&existing.plan_days&&existing.plan_days.length?'. Previous plan replaced, your logged days kept.':'.'),'ok');
-  $('planIn').value='';state.weekOf=p.week_of;await loadWeek();window.scrollTo({top:0,behavior:'smooth'});
+/* ── coach publish pipeline ───────────────────────────────────────────────────
+   Validate → preview → publish. Specific errors, never "invalid JSON". The
+   athlete has no import surface at all; these panels only exist for a coach.  */
+function validateWeek(o,idx){
+  const e=[], where=idx==null?'':`week ${idx+1}: `;
+  if(!o||typeof o!=='object'||Array.isArray(o)) return [where+'not an object'];
+  if(!isIso(o.week_start)) e.push(where+`week_start "${o.week_start}" is not a date (YYYY-MM-DD)`);
+  else if(parseIso(o.week_start).getDay()!==1)
+    e.push(where+`week_start ${o.week_start} is a ${parseIso(o.week_start)
+      .toLocaleDateString('en-US',{weekday:'long'})}, not a Monday`);
+  if(!Array.isArray(o.plan_days)) e.push(where+'plan_days must be an array');
+  else o.plan_days.forEach((p,i)=>{
+    const at=where+`plan_days[${i}] `;
+    if(!p||typeof p!=='object') return e.push(at+'is not an object');
+    if(!DAYS.includes(p.day)) e.push(at+`day "${p.day}" not recognised, expected one of ${DAYS.join(', ')}`);
+    if(p.type!=null && !DAY_TYPES.includes(String(p.type).toLowerCase()))
+      e.push(at+`type "${p.type}" not recognised, expected ${DAY_TYPES.join(', ')}`);
+    if(p.date!=null && !isIso(p.date)) e.push(at+`date "${p.date}" is not YYYY-MM-DD`);
+    ['target_low','target_high'].forEach(k=>{
+      if(p[k]!=null && num(p[k])==null) e.push(at+`${k} "${p[k]}" is not a number`);
+    });
+  });
+  ['weekly_low','weekly_high'].forEach(k=>{
+    if(o[k]!=null && num(o[k])==null) e.push(where+`${k} "${o[k]}" is not a number`);
+  });
+  return e;
+}
+$('pubCheck').onclick=async ()=>{
+  const st=$('pubStatus'); st.className='status'; $('pubPreview').innerHTML='';
+  let parsed;
+  try { parsed=JSON.parse($('pubIn').value); }
+  catch(err){ st.className='status err'; st.textContent='That is not valid JSON: '+err.message; return; }
+  const list=Array.isArray(parsed)?parsed:[parsed];
+  const errs=list.flatMap((o,i)=>validateWeek(o,list.length>1?i:null));
+  if(errs.length){
+    st.className='status err';
+    st.innerHTML=errs.map(x=>'· '+esc(x)).join('<br>');
+    return;
+  }
+  const starts=list.map(o=>o.week_start);
+  const {data:existing}=await sb.from('weeks').select('week_start,label')
+    .eq('athlete_id',state.viewing).in('week_start',starts);
+  state.pending=list;
+  const clash=(existing||[]).map(w=>`${fmtShort(w.week_start)}${w.label?' ("'+w.label+'")':''}`);
+  st.className='status ok';
+  st.textContent=list.length+(list.length===1?' week':' weeks')+' valid.';
+  $('pubPreview').innerHTML=
+    `<div class="rowline" style="display:block"><b style="font-family:inherit;font-size:15px">
+       Publishing to ${esc(viewingName())}</b></div>`+
+    list.map(o=>`<div class="rowline"><span class="grow">${esc(o.label||'Week')}
+      <span class="sub">${fmtShort(o.week_start)} · ${
+        (o.plan_days||[]).length} days</span></span></div>`).join('')+
+    (clash.length?`<div class="status err">Already published: ${esc(clash.join(', '))}.
+       Publishing replaces them.</div>`:'')+
+    `<button class="solid wide${clash.length?' warn':''}" id="pubGo">${
+      clash.length?'Replace and publish':'Publish'}</button>`;
+  $('pubGo').onclick=publishWeeks;
 };
+async function publishWeeks(){
+  const st=$('pubStatus');
+  const rows=state.pending.map(o=>({
+    athlete_id:state.viewing, week_start:o.week_start, label:o.label||null,
+    plan_days:o.plan_days, weekly_low:num(o.weekly_low), weekly_high:num(o.weekly_high),
+    published_at:new Date().toISOString()
+  }));
+  const {error}=await sb.from('weeks').upsert(rows,{onConflict:'athlete_id,week_start'});
+  if(error){ st.className='status err'; st.textContent='Publish failed: '+error.message; return; }
+  st.className='status ok';
+  st.textContent='Published to '+viewingName()+'.';
+  $('pubPreview').innerHTML=''; $('pubIn').value=''; state.pending=null;
+  loadWeek();
+}
+function validateCycle(o){
+  const e=[];
+  if(!o||typeof o!=='object'||Array.isArray(o)) return ['not an object'];
+  if(!isIso(o.cycle_start)) e.push(`cycle_start "${o.cycle_start}" is not a date (YYYY-MM-DD)`);
+  if(!Array.isArray(o.weeks)||!o.weeks.length) e.push('weeks must be a non-empty array');
+  else o.weeks.forEach((w,i)=>{
+    const at=`weeks[${i}] `;
+    if(!w||typeof w!=='object') return e.push(at+'is not an object');
+    if(!w.days||typeof w.days!=='object') return e.push(at+'needs a days object');
+    Object.keys(w.days).forEach(k=>{
+      if(!DAYS.includes(k)) e.push(at+`day "${k}" not recognised, expected one of ${DAYS.join(', ')}`);
+      const ex=w.days[k].exercises;
+      if(!Array.isArray(ex)) return e.push(at+`days.${k}.exercises must be an array`);
+      ex.forEach((x,j)=>{
+        if(!x||!x.name) e.push(at+`days.${k}.exercises[${j}] needs a name`);
+        if(!x||!x.dosing||!x.dosing.value)
+          e.push(at+`days.${k}.exercises[${j}] needs dosing.value`);
+        if(x&&x.area&&!PATTERNS.includes(x.area))
+          e.push(at+`days.${k}.exercises[${j}] area "${x.area}" not recognised, expected ${PATTERNS.join(', ')}`);
+      });
+    });
+  });
+  return e;
+}
+$('lpubCheck').onclick=async ()=>{
+  const st=$('lpubStatus'); st.className='status'; $('lpubPreview').innerHTML='';
+  let o;
+  try { o=JSON.parse($('lpubIn').value); }
+  catch(err){ st.className='status err'; st.textContent='That is not valid JSON: '+err.message; return; }
+  const errs=validateCycle(o);
+  if(errs.length){ st.className='status err'; st.innerHTML=errs.map(x=>'· '+esc(x)).join('<br>'); return; }
+  const {data:existing}=await sb.from('lift_cycles').select('id,cycle_label')
+    .eq('athlete_id',state.viewing).eq('cycle_start',o.cycle_start);
+  state.pendingLift=o;
+  const clash=(existing||[]).length;
+  st.className='status ok';
+  st.textContent=o.weeks.length+' weeks valid.';
+  $('lpubPreview').innerHTML=
+    `<div class="rowline" style="display:block"><b style="font-family:inherit;font-size:15px">
+      Publishing to ${esc(viewingName())}</b></div>
+     <div class="rowline"><span class="grow">${esc(o.cycle_label||'Block')}
+       <span class="sub">${fmtShort(o.cycle_start)} · ${o.weeks.length} weeks</span></span></div>`+
+    (clash?`<div class="status err">A cycle already starts that day. Publishing replaces it,
+       and completions on the old one are lost.</div>`:'')+
+    `<button class="solid wide${clash?' warn':''}" id="lpubGo">${
+      clash?'Replace and publish':'Publish'}</button>`;
+  $('lpubGo').onclick=publishCycle;
+};
+async function publishCycle(){
+  const st=$('lpubStatus'), o=state.pendingLift;
+  await sb.from('lift_cycles').delete()
+    .eq('athlete_id',state.viewing).eq('cycle_start',o.cycle_start);
+  const {error}=await sb.from('lift_cycles').insert({
+    athlete_id:state.viewing, cycle_start:o.cycle_start,
+    cycle_label:o.cycle_label||null, weeks:o.weeks});
+  if(error){ st.className='status err'; st.textContent='Publish failed: '+error.message; return; }
+  st.className='status ok'; st.textContent='Published to '+viewingName()+'.';
+  $('lpubPreview').innerHTML=''; $('lpubIn').value=''; state.pendingLift=null;
+  state.cycles=[]; loadLift();
+}
 
 boot();
 </script>
