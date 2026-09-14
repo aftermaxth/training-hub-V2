@@ -28,6 +28,16 @@ The design is mine. Took along time to flesh it out on paper before Claude wrote
 
 A coach account gets panels an athlete never sees. Pick an athlete, paste a week or a full block of training as JSON, and it runs through a read-only validation step before anything gets written — checking every field, naming what failed and why, and warning before it overwrites something already published.
 
+## Demo
+
+Two short clips of it in use.
+
+**Coach: paste, validate, publish**
+[coach_demo.mp4](coach_demo.mp4)
+
+**Athlete: week view and logging**
+[app_demo.mp4](app_demo.mp4)
+
 ## Schema
 
 Tables for athletes, athlete config, weeks, sessions, resets, goals, races, and lift cycles. Row-level security scopes visibility per athlete/coach, with column-level guards on top so an athlete can log a session without being able to edit the prescribed workout.
