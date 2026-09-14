@@ -1,12 +1,12 @@
 # Training Hub V2
 
-A coaching web app I built to write training and publish it to the runners I coach. No framework, no build step — vanilla HTML, CSS, and JavaScript on top of Supabase.
+A coaching web app I built to write training and publish it to the runners I coach. Just vanilla HTML, CSS, and JavaScript on top of Supabase.
 
 ## Why
 
-I'm a mechanical engineering student. Nothing about this is in my lane, and that was deliberate — I wanted to understand where the front end and back end actually meet, so I built something I'd use every day: a tool for coaching.
+I wanted to understand how to use front end and back end, so I built something that would challenge me.
 
-The design is mine. Every screen, every function, what the athlete sees versus what the coach sees, was on paper before a line of code existed. Claude wrote the code.
+The design is mine. Took along time to flesh it out on paper before Claude wrote the code.
 
 ## Stack
 
